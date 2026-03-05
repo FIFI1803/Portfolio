@@ -55,20 +55,18 @@ const Navigation = () => {
             </div>
 
             {/* Mobile dropdown */}
-            {open && (
-                <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900 border-t border-gray-800 flex flex-col py-4">
-                    {links.map((link) => (
-                        <a
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setOpen(false)}
-                            className="px-6 py-3 text-gray-300 hover:text-white hover:bg-gray-800 transition-colors text-sm"
-                        >
-                            {link.label}
-                        </a>
-                    ))}
-                </div>
-            )}
+            <div className={`md:hidden absolute top-full left-4 right-4 mt-2 rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+                {links.map((link) => (
+                    <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => { setOpen(false); setActive(link.href) }}
+                        className={`px-6 py-3.5 text-sm transition-colors ${active === link.href ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}
+                    >
+                        {link.label}
+                    </a>
+                ))}
+            </div>
         </nav>
     )
 }
