@@ -14,11 +14,11 @@ const About = () => {
                 }
             })
 
-            tl.from('.about-image',       { opacity: 0, x: -60,  duration: 1.0, ease: 'power3.out' }, 0)
-              .from('.about-label',        { opacity: 0, y: 20,   duration: 0.6, ease: 'power2.out' }, 0.2)
-              .from('.about-heading',      { opacity: 0, y: 40,   duration: 0.8, ease: 'power3.out' }, 0.3)
-              .from('.about-body',         { opacity: 0, y: 25,   duration: 0.6, ease: 'power2.out', stagger: 0.15 }, 0.5)
-              .from('.about-cta > *',      { opacity: 0, y: 20,   duration: 0.5, ease: 'power2.out', stagger: 0.1  }, 0.8)
+            tl.from('.about-image', { opacity: 0, x: -60, duration: 1.0, ease: 'power3.out' }, 0)
+                .from('.about-label', { opacity: 0, y: 20, duration: 0.6, ease: 'power2.out' }, 0.2)
+                .from('.about-heading', { opacity: 0, y: 40, duration: 0.8, ease: 'power3.out' }, 0.3)
+                .from('.about-body', { opacity: 0, y: 25, duration: 0.6, ease: 'power2.out', stagger: 0.15 }, 0.5)
+                .from('.about-cta > *', { opacity: 0, y: 20, duration: 0.5, ease: 'power2.out', stagger: 0.1 }, 0.8)
         }, root)
 
         return () => ctx.revert()
@@ -28,7 +28,7 @@ const About = () => {
         <section ref={root} id="about" className="bg-gray-950 px-6 md:px-16 py-16 md:min-h-screen flex flex-col justify-center">
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
                 <div className="about-image w-full lg:w-2/5 shrink-0">
-                    <img src="/hero.jpeg" alt="about" className="w-full h-64 sm:h-80 lg:h-[500px] object-cover rounded-3xl" />
+                    <img src="/HeroImage.png" alt="about" className="w-full h-64 sm:h-80 lg:h-[500px] object-cover rounded-3xl" />
                 </div>
 
                 <div className="flex flex-col gap-6">
