@@ -12,9 +12,15 @@ gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
   return (
-    <div className="flex flex-col bg-gray-950">
-      <Navigation />
-      <Hero />
+    <div className="flex flex-col bg-obsidian">
+      <div className="relative">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 60% 80% at 80% 20%, rgba(255,92,43,0.10) 0%, transparent 70%)' }}
+        />
+        <Navigation />
+        <Hero />
+      </div>
       <About />
       <Skills />
       <Experience />

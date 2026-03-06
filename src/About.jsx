@@ -25,31 +25,31 @@ const About = () => {
     }, [])
 
     return (
-        <section ref={root} id="about" className="bg-gray-950 px-6 md:px-16 py-16 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="about" className="bg-obsidian px-6 md:px-16 py-16 md:min-h-screen flex flex-col justify-center">
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
                 <div className="about-image w-full lg:w-2/5 shrink-0">
                     <img src="/HeroImage.png" alt="about" className="w-full h-64 sm:h-80 lg:h-[500px] object-cover rounded-3xl" />
                 </div>
 
                 <div className="flex flex-col gap-6">
-                    <p className="about-label text-yellow-400 text-sm font-medium tracking-widest uppercase">About Me</p>
-                    <h2 className="about-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    <p className="about-label text-ember text-sm font-syne font-medium tracking-widest uppercase">About Me</p>
+                    <h2 className="about-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading leading-tight">
                         Passionate about building<br className="hidden sm:block" />great software
                     </h2>
-                    <p className="about-body text-gray-400 text-base leading-relaxed">
+                    <p className="about-body text-body text-base font-dm leading-relaxed">
                         I'm a Software Developer based in Dublin, Ireland with a passion for building clean, user-friendly web applications.
                         I enjoy turning complex problems into simple, elegant solutions. When I'm not coding I'm probably learning
                         something new, exploring new technologies, or enjoying the outdoors.
                     </p>
-                    <p className="about-body text-gray-400 text-base leading-relaxed">
+                    <p className="about-body text-body text-base font-dm leading-relaxed">
                         Currently open to new opportunities — whether it's a full-time role, freelance project, or just a great conversation
                         about tech.
                     </p>
                     <div className="about-cta flex flex-wrap gap-4 mt-2">
-                        <a href="#contact" className="px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-full hover:bg-yellow-300 transition-colors text-sm">
+                        <a href="#contact" className="px-6 py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm">
                             Get in touch
                         </a>
-                        <a href="#projects" className="px-6 py-3 border border-gray-700 text-gray-300 font-medium rounded-full hover:border-gray-500 hover:text-white transition-colors text-sm">
+                        <a href="#projects" className="px-6 py-3 border border-brand-border text-body font-syne font-medium rounded-full hover:border-ember hover:text-ember transition-colors text-sm">
                             View my work
                         </a>
                     </div>

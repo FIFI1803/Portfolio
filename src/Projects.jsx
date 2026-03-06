@@ -31,7 +31,6 @@ const Projects = () => {
     const [activeIndex, setActiveIndex] = useState(0)
     const activeIndexRef = useRef(0)
 
-    // Scroll → activeIndex
     useEffect(() => {
         const handleScroll = () => {
             const el = containerRef.current
@@ -51,7 +50,6 @@ const Projects = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    // GSAP transition whenever activeIndex changes
     useEffect(() => {
         const cards = gsap.utils.toArray('.project-card')
         cards.forEach((card, i) => {
@@ -72,7 +70,6 @@ const Projects = () => {
         })
     }, [activeIndex])
 
-    // Header entrance
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.timeline({
@@ -90,18 +87,18 @@ const Projects = () => {
             style={{ height: `${projects.length * 100}vh` }}
             className="relative"
         >
-            <div ref={stickyRef} className="sticky top-0 h-screen bg-gray-900 flex flex-col overflow-hidden">
+            <div ref={stickyRef} className="sticky top-0 h-screen bg-obsidian flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="projects-header px-6 md:px-16 pt-12 md:pt-16 shrink-0">
-                    <p className="text-yellow-400 text-sm font-medium tracking-widest uppercase mb-1">What I've built</p>
+                    <p className="text-ember text-sm font-syne font-medium tracking-widest uppercase mb-1">What I've built</p>
                     <div className="flex items-end justify-between">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">My Work</h2>
+                        <h2 className="font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading">My Work</h2>
                         <div className="flex gap-2 pb-1">
                             {projects.map((_, i) => (
                                 <div
                                     key={i}
                                     className={`rounded-full transition-all duration-500 ${
-                                        i === activeIndex ? 'w-6 h-2 bg-yellow-400' : 'w-2 h-2 bg-gray-600'
+                                        i === activeIndex ? 'w-6 h-2 bg-ember' : 'w-2 h-2 bg-surface2'
                                     }`}
                                 />
                             ))}
@@ -120,29 +117,30 @@ const Projects = () => {
                             <div className="flex flex-col lg:flex-row gap-8 h-full">
                                 {/* Info */}
                                 <div className="flex flex-col justify-center gap-5 w-full lg:w-2/5">
-                                    <span className="text-gray-600 text-sm font-mono">
+                                    <span className="text-muted text-sm font-dm">
                                         {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
                                     </span>
-                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{project.name}</h3>
-                                    <p className="text-gray-400 text-base leading-relaxed">{project.description}</p>
+                                    <h3 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-heading">{project.name}</h3>
+                                    <p className="text-body text-base font-dm leading-relaxed">{project.description}</p>
                                     <div className="flex flex-wrap gap-2">
                                         {project.tags.map(tag => (
-                                            <span key={tag} className="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">{tag}</span>
+                                            <span key={tag} className="px-3 py-1 bg-surface2 text-subtle font-dm text-xs rounded-full border border-brand-border">{tag}</span>
                                         ))}
                                     </div>
                                     <a
                                         href={project.link}
-                                        className="self-start px-6 py-3 border border-gray-600 text-gray-300 text-sm font-medium rounded-full hover:border-yellow-400 hover:text-yellow-400 transition-colors"
+                                        className="self-start px-6 py-3 border border-brand-border text-body font-syne text-sm font-medium rounded-full hover:border-ember hover:text-ember transition-colors"
                                     >
                                         Check it out →
                                     </a>
                                 </div>
 
                                 {/* Image */}
-                                <div className="flex-1 bg-gray-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-48 lg:min-h-0">
+                                <div className="flex-1 bg-surface border border-brand-border rounded-2xl overflow-hidden flex items-center justify-center min-h-48 lg:min-h-0 relative">
+                                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ember to-transparent opacity-30" />
                                     {project.image
                                         ? <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
-                                        : <span className="text-gray-600 text-sm">Project Screenshot</span>
+                                        : <span className="text-muted text-sm font-dm">Project Screenshot</span>
                                     }
                                 </div>
                             </div>
