@@ -1,6 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap");
 @import "tailwindcss";
 
+@theme {
+  --color-ember:        #FF5C2B;
+  --color-ember-dim:    #CC3A15;
+  --color-obsidian:     #0D0D0F;
+  --color-void:         #13131A;
+  --color-surface:      #1A1A24;
+  --color-surface2:     #22222F;
+  --color-brand-border: #2E2E40;
+  --color-muted:        #5A5A7A;
+  --color-subtle:       #8888AA;
+  --color-body:         #C4C4D4;
+  --color-heading:      #EEEEF5;
+  --color-ice:          #A8C8FF;
+  --color-sage:         #7FFFD4;
+  --color-gold:         #FFD166;
+
+  --font-syne: 'Syne', sans-serif;
+  --font-dm:   'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 body {
-    font-family: "Mona Sans", sans-serif;
+  font-family: 'DM Sans', sans-serif;
+  background-color: #0D0D0F;
+  color: #C4C4D4;
 }

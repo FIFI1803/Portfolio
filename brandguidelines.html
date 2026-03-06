@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Filip Dev — Brand Guidelines</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --obsidian:   #0D0D0F;
+    --void:       #13131A;
+    --surface:    #1A1A24;
+    --surface2:   #22222F;
+    --border:     #2E2E40;
+    --muted:      #5A5A7A;
+    --subtle:     #8888AA;
+    --body:       #C4C4D4;
+    --heading:    #EEEEF5;
+    --white:      #F8F8FF;
+
+    --ember:      #FF5C2B;
+    --ember-dim:  #CC3A15;
+    --ember-glow: rgba(255,92,43,0.15);
+    --ember-soft: rgba(255,92,43,0.08);
+
+    --ice:        #A8C8FF;
+    --sage:       #7FFFD4;
+    --gold:       #FFD166;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--body);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, .display {
+    font-family: 'Syne', sans-serif;
+    color: var(--heading);
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 960px; margin: 0 auto; padding: 80px 32px; }
+  .section { margin-bottom: 96px; }
+
+  /* ── Cover ── */
+  .cover {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 56px 0 64px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 96px;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -32px; right: -32px;
+    height: 100%;
+    background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(255,92,43,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 20px;
+  }
+  .cover-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 0.95;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+  .cover-title span { color: var(--ember); }
+  .cover-sub {
+    margin-top: 24px;
+    font-size: 15px;
+    color: var(--subtle);
+    max-width: 480px;
+  }
+
+  /* ── Section labels ── */
+  .label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .label::after {
+    content: '';
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--ember);
+    opacity: 0.4;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Palette ── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .swatch-color {
+    height: 80px;
+    position: relative;
+  }
+  .swatch-primary .swatch-color { background: var(--ember); }
+  .swatch-obsidian .swatch-color { background: var(--obsidian); border-bottom: 1px solid var(--border); }
+  .swatch-void .swatch-color { background: var(--void); border-bottom: 1px solid var(--border); }
+  .swatch-surface .swatch-color { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .swatch-surface2 .swatch-color { background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .swatch-ice .swatch-color { background: var(--ice); }
+  .swatch-sage .swatch-color { background: var(--sage); }
+  .swatch-gold .swatch-color { background: var(--gold); }
+  .swatch-body .swatch-color { background: var(--body); }
+  .swatch-muted .swatch-color { background: var(--muted); }
+  .swatch-info {
+    padding: 10px 12px;
+    background: var(--surface);
+  }
+  .swatch-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .swatch-role {
+    font-size: 10px;
+    color: var(--subtle);
+    margin-top: 4px;
+  }
+
+  /* ── Primary badge ── */
+  .swatch-primary .swatch-name,
+  .swatch-primary .swatch-hex { color: var(--obsidian); }
+  .swatch-primary .swatch-role { color: rgba(13,13,15,0.6); }
+  .swatch-primary .swatch-info { background: var(--ember); }
+
+  /* ── Typography ── */
+  .type-specimen { margin-bottom: 48px; }
+  .type-specimen + .type-specimen { padding-top: 48px; border-top: 1px solid var(--border); }
+  .type-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .type-name { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .type-use  { font-size: 11px; color: var(--ember); }
+
+  .display-specimen {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  .display-specimen em { color: var(--ember); font-style: normal; }
+
+  .heading-specimen {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--heading);
+  }
+
+  .body-specimen {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--body);
+    max-width: 600px;
+  }
+
+  .label-specimen {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+  }
+
+  /* ── UI Components ── */
+  .components-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .components-grid { grid-template-columns: 1fr; } }
+
+  .component-block {
+    background: var(--void);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .component-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  /* Buttons */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 11px 24px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--ember); color: var(--obsidian); }
+  .btn-ghost   { background: transparent; color: var(--heading); border: 1px solid var(--border); }
+  .btn-outline { background: transparent; color: var(--ember); border: 1px solid var(--ember); }
+  .btn-sm      { padding: 7px 16px; font-size: 11px; }
+
+  /* Nav pill */
+  .nav-pill {
+    display: inline-flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px;
+  }
+  .nav-item {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 100px;
+    color: var(--subtle);
+    cursor: pointer;
+  }
+  .nav-item.active { background: var(--white); color: var(--obsidian); font-weight: 600; }
+
+  /* Badge */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: var(--surface2);
+    color: var(--subtle);
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .badge-accent { background: var(--ember-soft); color: var(--ember); border-color: rgba(255,92,43,0.2); }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ember), transparent);
+    opacity: 0.5;
+  }
+  .card-eyebrow { font-size: 10px; color: var(--ember); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .card-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+  .card-body  { font-size: 13px; color: var(--subtle); line-height: 1.6; }
+
+  /* Status dot */
+  .status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--subtle); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74,222,128,0.2); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(74,222,128,0.2)} 50%{box-shadow:0 0 0 6px rgba(74,222,128,0.08)} }
+
+  /* ── Brand Voice ── */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .voice-grid { grid-template-columns: 1fr; } }
+
+  .voice-card {
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .voice-do   { background: rgba(127,255,212,0.05); border: 1px solid rgba(127,255,212,0.15); }
+  .voice-dont { background: rgba(255,92,43,0.05);   border: 1px solid rgba(255,92,43,0.12); }
+  .voice-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .voice-do   .voice-label { color: var(--sage); }
+  .voice-dont .voice-label { color: var(--ember); }
+  .voice-item {
+    font-size: 13px;
+    color: var(--body);
+    line-height: 1.5;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 10px;
+  }
+  .voice-item:last-child { border-bottom: none; }
+  .voice-icon { flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+
+  /* ── Content pillars ── */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .pillar-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .pillar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 6px;
+  }
+  .pillar-desc { font-size: 12px; color: var(--subtle); line-height: 1.5; }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── Footer ── */
+  .footer {
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--heading); }
+  .footer-brand span { color: var(--ember); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-eyebrow">Filip Dev · Brand Guidelines v1.0</div>
+    <h1 class="cover-title">Build<br><span>Different.</span></h1>
+    <p class="cover-sub">A visual identity system for Filip Galach — software developer, content creator, building in public from Dublin.</p>
+  </div>
+
+  <!-- Palette -->
+  <div class="section">
+    <div class="label">01 — Colour</div>
+    <h2 class="section-title">The Palette</h2>
+
+    <div class="palette-grid">
+      <div class="swatch swatch-primary">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ember</div>
+          <div class="swatch-hex">#FF5C2B</div>
+          <div class="swatch-role">Primary accent · CTA · Brand colour</div>
+        </div>
+      </div>
+      <div class="swatch swatch-obsidian">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Obsidian</div>
+          <div class="swatch-hex">#0D0D0F</div>
+          <div class="swatch-role">Page background</div>
+        </div>
+      </div>
+      <div class="swatch swatch-void">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Void</div>
+          <div class="swatch-hex">#13131A</div>
+          <div class="swatch-role">Section background</div>
+        </div>
+      </div>
+      <div class="swatch swatch-surface">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface</div>
+          <div class="swatch-hex">#1A1A24</div>
+          <div class="swatch-role">Cards · Panels</div>
+        </div>
+      </div>
+      <div class="swatch swatch-surface2">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface 2</div>
+          <div class="swatch-hex">#22222F</div>
+          <div class="swatch-role">Hover states · Chips</div>
+        </div>
+      </div>
+      <div class="swatch swatch-body">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Body</div>
+          <div class="swatch-hex">#C4C4D4</div>
+          <div class="swatch-role">Body text</div>
+        </div>
+      </div>
+      <div class="swatch swatch-muted">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Muted</div>
+          <div class="swatch-hex">#5A5A7A</div>
+          <div class="swatch-role">Secondary text · Labels</div>
+        </div>
+      </div>
+      <div class="swatch swatch-ice">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ice</div>
+          <div class="swatch-hex">#A8C8FF</div>
+          <div class="swatch-role">Links · Code · Info</div>
+        </div>
+      </div>
+      <div class="swatch swatch-sage">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Sage</div>
+          <div class="swatch-hex">#7FFFD4</div>
+          <div class="swatch-role">Success · "Open to work"</div>
+        </div>
+      </div>
+      <div class="swatch swatch-gold">
+        <div class="swatch-color"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gold</div>
+          <div class="swatch-hex">#FFD166</div>
+          <div class="swatch-role">Highlights · Awards</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+      <p style="font-size:13px;color:var(--subtle);line-height:1.7;">
+        <strong style="color:var(--heading);font-family:'Syne',sans-serif;">Why Ember, not Yellow?</strong><br>
+        Yellow-on-dark-gray is the default template palette for 80% of dev portfolios right now. Ember (#FF5C2B) is a warm, burnt orange-red — still energetic and bold, but immediately distinctive. It reads as ambitious, creative, and driven. On deep near-black backgrounds it creates a cinematic contrast that feels premium rather than default.
+      </p>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <div class="label">02 — Typography</div>
+    <h2 class="section-title">Type System</h2>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="type-name">Syne — Display & Headings</span>
+        <span class="type-use">Titles · Nav · Buttons · Labels</span>
+      </div>
+      <div class="display-specimen">Filip<br><em>Galach</em></div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="type-name">Syne 700 — Section Heading</span>
+        <span class="type-use">h2, h3</span>
+      </div>
+      <div class="heading-specimen">Software Developer.<br>Building in public.</div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="type-name">DM Sans 300 — Body</span>
+        <span class="type-use">Paragraphs · Descriptions</span>
+      </div>
+      <div class="body-specimen">
+        I'm a Software Developer based in Dublin, Ireland with a passion for building clean, user-friendly web applications. I enjoy turning complex problems into simple, elegant solutions.
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <span class="type-name">DM Sans 500 Uppercase — Label</span>
+        <span class="type-use">Section eyebrows · Tags</span>
+      </div>
+      <div class="label-specimen">What I've built</div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="section">
+    <div class="label">03 — Components</div>
+    <h2 class="section-title">UI Elements</h2>
+
+    <div class="components-grid">
+
+      <div class="component-block">
+        <div class="component-label">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Download CV</button>
+          <button class="btn btn-ghost">View Work</button>
+          <button class="btn btn-outline">Get in touch</button>
+        </div>
+      </div>
+
+      <div class="component-block">
+        <div class="component-label">Navigation</div>
+        <div class="nav-pill">
+          <div class="nav-item active">Home</div>
+          <div class="nav-item">About</div>
+          <div class="nav-item">Work</div>
+          <div class="nav-item">Contact</div>
+        </div>
+      </div>
+
+      <div class="component-block">
+        <div class="component-label">Skill Badges</div>
+        <div class="badge-row">
+          <span class="badge badge-accent">React</span>
+          <span class="badge">TypeScript</span>
+          <span class="badge">Node.js</span>
+          <span class="badge">Tailwind</span>
+          <span class="badge">Python</span>
+          <span class="badge badge-accent">Next.js</span>
+        </div>
+      </div>
+
+      <div class="component-block">
+        <div class="component-label">Status / Availability</div>
+        <div class="status">
+          <div class="dot"></div>
+          Open to work · Dublin, Ireland
+        </div>
+      </div>
+
+      <div class="component-block" style="grid-column: 1 / -1;">
+        <div class="component-label">Project Card</div>
+        <div class="card">
+          <div class="card-eyebrow">Featured Project</div>
+          <div class="card-title">Portfolio Site</div>
+          <div class="card-body">Built from scratch with React, Tailwind CSS and GSAP. Focused on clean typography, smooth scroll interactions, and a strong visual identity.</div>
+          <div style="margin-top:16px;" class="badge-row">
+            <span class="badge badge-accent">React</span>
+            <span class="badge">Tailwind CSS</span>
+            <span class="badge">GSAP</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Voice & Tone -->
+  <div class="section">
+    <div class="label">04 — Voice</div>
+    <h2 class="section-title">Brand Voice & Tone</h2>
+
+    <div class="voice-grid">
+      <div class="voice-card voice-do">
+        <div class="voice-label">✓ Do</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Confident but not arrogant. Own what you know.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Show the process, not just the result. People connect with the journey.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Be specific. "I built X with Y because Z" beats "I'm passionate about tech."</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Honest about what you're still learning. That's the brand.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Short sentences. Punchy. Leave white space.</div>
+      </div>
+      <div class="voice-card voice-dont">
+        <div class="voice-label">✗ Don't</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Generic phrases: "passionate developer", "team player", "hard worker".</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Overclaiming seniority. You're a junior building in public — own that.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Polished corporate tone. You're a person, not a company.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Disappearing for weeks then trying to "catch up". Consistency beats intensity.</div>
+        <div class="voice-item"><span class="voice-icon">→</span>Waiting until it's perfect. Ship it. Update it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Pillars -->
+  <div class="section">
+    <div class="label">05 — Content</div>
+    <h2 class="section-title">Content Pillars</h2>
+
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div class="pillar-title">Build in Public</div>
+        <div class="pillar-desc">Portfolio builds, side projects, coding sessions, technical decisions. Show the work.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-title">Day in the Life</div>
+        <div class="pillar-desc">SAP intern life, gym + side project balance, real routines. The human behind the code.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-title">Learning & Growth</div>
+        <div class="pillar-desc">Courses, new tools, lessons learned. What you'd tell yourself 6 months ago.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <div class="pillar-title">Tech & Opinion</div>
+        <div class="pillar-desc">Tools you use, honest takes on the industry. No fluff, no hype.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Implementation -->
+  <div class="section">
+    <div class="label">06 — Implementation</div>
+    <h2 class="section-title">Next Steps for the Portfolio</h2>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ember);min-width:32px;line-height:1;">1</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">Replace yellow-400 → Ember (#FF5C2B)</div>
+          <div style="font-size:13px;color:var(--subtle);">Global find & replace in all component files. One change, instant identity shift.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ember);min-width:32px;line-height:1;">2</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">Swap Mona Sans → Syne + DM Sans</div>
+          <div style="font-size:13px;color:var(--subtle);">Syne for headings/nav/buttons. DM Sans light for body text. Import both from Google Fonts.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ember);min-width:32px;line-height:1;">3</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">Deepen backgrounds: gray-950 → #0D0D0F / #13131A</div>
+          <div style="font-size:13px;color:var(--subtle);">Richer, more moody than Tailwind's default gray. Subtle but noticeable.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ember);min-width:32px;line-height:1;">4</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">Add a radial ember glow to the Hero section</div>
+          <div style="font-size:13px;color:var(--subtle);">A subtle radial-gradient behind the hero text — rgba(255,92,43,0.10). Cinematic atmosphere with one CSS line.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ember);min-width:32px;line-height:1;">5</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--heading);margin-bottom:4px;">Update index.html title + meta description</div>
+          <div style="font-size:13px;color:var(--subtle);">"portfolio" → "Filip Galach — Software Developer". Add a meta description. Tiny SEO win, makes you look professional.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">Filip<span>Dev</span></div>
+    <div class="footer-note">Brand Guidelines v1.0 · March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
