@@ -63,9 +63,13 @@ const Navigation = () => {
                 <span className="md:hidden text-heading font-syne font-semibold text-sm">Filip Galach</span>
 
                 <div className="flex items-center gap-3">
-                    <button className="px-5 py-2.5 md:px-6 md:py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm">
+                    <a
+                        href="/Filip_Galach_Resume.pdf"
+                        download="Filip_Galach_CV.pdf"
+                        className="px-5 py-2.5 md:px-6 md:py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
+                    >
                         Download CV
-                    </button>
+                    </a>
 
                     {/* Hamburger */}
                     <button

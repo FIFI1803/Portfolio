@@ -458,6 +458,170 @@ const ProjectsTab = ({ toast }) => {
     )
 }
 
+// ─── Messages ─────────────────────────────────────────────────────────────────
+
+const MessagesTab = ({ toast, onRead }) => {
+    const [items, setItems] = useState([])
+    const [selected, setSelected] = useState(null)
+    const [deleting, setDeleting] = useState(null)
+    const [filter, setFilter] = useState('all') // 'all' | 'unread'
+
+    const load = async () => {
+        const { data } = await supabase
+            .from('contact_messages')
+            .select('*')
+            .order('created_at', { ascending: false })
+        setItems(data || [])
+    }
+    useEffect(() => { load() }, [])
+
+    const markRead = async (item) => {
+        if (item.read) return
+        await supabase.from('contact_messages').update({ read: true }).eq('id', item.id)
+        setItems(prev => prev.map(m => m.id === item.id ? { ...m, read: true } : m))
+        if (selected?.id === item.id) setSelected({ ...item, read: true })
+        onRead?.()
+    }
+
+    const open = (item) => {
+        setSelected(item)
+        markRead(item)
+    }
+
+    const del = async () => {
+        await supabase.from('contact_messages').delete().eq('id', deleting.id)
+        toast('Message deleted')
+        if (selected?.id === deleting.id) setSelected(null)
+        setDeleting(null)
+        load()
+    }
+
+    const fmt = (ts) => new Date(ts).toLocaleDateString('en-IE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+    const unreadCount = items.filter(m => !m.read).length
+    const visible = filter === 'unread' ? items.filter(m => !m.read) : items
+
+    return (
+        <div className="flex flex-col gap-4">
+            {/* Toolbar */}
+            <div className="flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                    <p className="text-muted text-sm font-dm">{items.length} message{items.length !== 1 ? 's' : ''}</p>
+                    {unreadCount > 0 && (
+                        <span className="px-2 py-0.5 rounded-full bg-ember/15 text-ember text-xs font-syne font-semibold">
+                            {unreadCount} unread
+                        </span>
+                    )}
+                </div>
+                <div className="flex gap-1 p-1 bg-surface border border-brand-border rounded-lg">
+                    {['all', 'unread'].map(f => (
+                        <button
+                            key={f}
+                            onClick={() => setFilter(f)}
+                            className={`px-3 py-1 rounded-md text-xs font-syne font-medium transition-colors capitalize ${filter === f ? 'bg-ember text-obsidian' : 'text-subtle hover:text-heading'}`}
+                        >
+                            {f}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {visible.length === 0 ? (
+                <div className="py-16 flex flex-col items-center gap-3 text-center">
+                    <div className="w-12 h-12 rounded-full bg-surface2 border border-brand-border flex items-center justify-center">
+                        <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <p className="text-muted text-sm font-dm">{filter === 'unread' ? 'No unread messages' : 'No messages yet'}</p>
+                </div>
+            ) : (
+                <div className="flex flex-col lg:flex-row gap-4">
+                    {/* List */}
+                    <div className="flex flex-col gap-1.5 lg:w-72 shrink-0">
+                        {visible.map(item => (
+                            <button
+                                key={item.id}
+                                onClick={() => open(item)}
+                                className={`text-left px-4 py-3 rounded-xl border transition-colors ${
+                                    selected?.id === item.id
+                                        ? 'bg-ember/10 border-ember/30'
+                                        : 'bg-surface border-brand-border hover:border-subtle'
+                                }`}
+                            >
+                                <div className="flex items-start justify-between gap-2 mb-1">
+                                    <span className={`text-sm font-dm truncate ${item.read ? 'text-subtle' : 'text-heading font-medium'}`}>
+                                        {item.name}
+                                    </span>
+                                    {!item.read && <span className="w-2 h-2 rounded-full bg-ember shrink-0 mt-1.5" />}
+                                </div>
+                                <p className="text-muted text-xs font-dm truncate">{item.subject || item.message}</p>
+                                <p className="text-muted/60 text-[11px] font-dm mt-1">{fmt(item.created_at)}</p>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Detail pane */}
+                    {selected ? (
+                        <div className="flex-1 bg-surface border border-brand-border rounded-xl p-5 flex flex-col gap-4 min-w-0">
+                            <div className="flex items-start justify-between gap-4">
+                                <div>
+                                    <h3 className="font-syne text-lg font-semibold text-heading">{selected.subject || '(No subject)'}</h3>
+                                    <p className="text-muted text-xs font-dm mt-1">{fmt(selected.created_at)}</p>
+                                </div>
+                                <Btn variant="danger" onClick={() => setDeleting(selected)}>Delete</Btn>
+                            </div>
+
+                            {/* Sender info */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-surface2 rounded-xl border border-brand-border text-sm font-dm">
+                                <div>
+                                    <span className="text-muted text-xs uppercase tracking-wider">From</span>
+                                    <p className="text-heading mt-0.5">{selected.name}</p>
+                                </div>
+                                <div>
+                                    <span className="text-muted text-xs uppercase tracking-wider">Email</span>
+                                    <a href={`mailto:${selected.email}`} className="text-ember block mt-0.5 hover:text-ember-dim transition-colors truncate">{selected.email}</a>
+                                </div>
+                                {selected.company && (
+                                    <div>
+                                        <span className="text-muted text-xs uppercase tracking-wider">Company</span>
+                                        <p className="text-heading mt-0.5">{selected.company}</p>
+                                    </div>
+                                )}
+                                {selected.budget && (
+                                    <div>
+                                        <span className="text-muted text-xs uppercase tracking-wider">Budget</span>
+                                        <p className="text-heading mt-0.5">{selected.budget}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Message body */}
+                            <div className="flex-1">
+                                <span className="text-muted text-xs uppercase tracking-wider font-dm">Message</span>
+                                <p className="text-body text-sm font-dm mt-2 leading-relaxed whitespace-pre-wrap">{selected.message}</p>
+                            </div>
+
+                            <a
+                                href={`mailto:${selected.email}?subject=Re: ${encodeURIComponent(selected.subject || 'Your message')}`}
+                                className="self-start px-5 py-2.5 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
+                            >
+                                Reply via email →
+                            </a>
+                        </div>
+                    ) : (
+                        <div className="flex-1 bg-surface border border-brand-border rounded-xl flex items-center justify-center py-16 text-muted text-sm font-dm">
+                            Select a message to read
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {deleting && <ConfirmDelete name={`message from ${deleting.name}`} onConfirm={del} onCancel={() => setDeleting(null)} />}
+        </div>
+    )
+}
+
 // ─── Login ────────────────────────────────────────────────────────────────────
 
 const Login = ({ onLogin }) => {
@@ -497,16 +661,25 @@ const Login = ({ onLogin }) => {
 
 // ─── Main Admin ───────────────────────────────────────────────────────────────
 
-const TABS = ['Skills', 'Education', 'Experience', 'Projects']
+const TABS = ['Skills', 'Education', 'Experience', 'Projects', 'Messages']
 
 const Admin = () => {
     const [session, setSession] = useState(undefined) // undefined = loading
     const [tab, setTab] = useState('Skills')
     const [toast, setToast] = useState(null)
+    const [unreadCount, setUnreadCount] = useState(0)
+
+    const loadUnread = async () => {
+        const { count } = await supabase
+            .from('contact_messages')
+            .select('*', { count: 'exact', head: true })
+            .eq('read', false)
+        setUnreadCount(count || 0)
+    }
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => setSession(session))
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setSession(s))
+        supabase.auth.getSession().then(({ data: { session } }) => { setSession(session); if (session) loadUnread() })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => { setSession(s); if (s) loadUnread() })
         return () => subscription.unsubscribe()
     }, [])
 
@@ -544,14 +717,19 @@ const Admin = () => {
 
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
                 {/* Tabs */}
-                <div className="flex gap-1 p-1 bg-surface border border-brand-border rounded-xl mb-8 w-fit">
+                <div className="flex flex-wrap gap-1 p-1 bg-surface border border-brand-border rounded-xl mb-8 w-fit">
                     {TABS.map(t => (
                         <button
                             key={t}
                             onClick={() => setTab(t)}
-                            className={`px-4 py-2 rounded-lg text-sm font-syne font-medium transition-colors ${tab === t ? 'bg-ember text-obsidian' : 'text-subtle hover:text-heading'}`}
+                            className={`relative px-4 py-2 rounded-lg text-sm font-syne font-medium transition-colors ${tab === t ? 'bg-ember text-obsidian' : 'text-subtle hover:text-heading'}`}
                         >
                             {t}
+                            {t === 'Messages' && unreadCount > 0 && (
+                                <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center ${tab === t ? 'bg-obsidian text-ember' : 'bg-ember text-obsidian'}`}>
+                                    {unreadCount > 9 ? '9+' : unreadCount}
+                                </span>
+                            )}
                         </button>
                     ))}
                 </div>
@@ -563,6 +741,7 @@ const Admin = () => {
                     {tab === 'Education'  && <EducationTab  toast={showToast} />}
                     {tab === 'Experience' && <ExperienceTab toast={showToast} />}
                     {tab === 'Projects'   && <ProjectsTab   toast={showToast} />}
+                    {tab === 'Messages'   && <MessagesTab   toast={showToast} onRead={loadUnread} />}
                 </div>
             </div>
 

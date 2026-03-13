@@ -1,6 +1,7 @@
 const items = [
-    'React', 'TypeScript', 'Node.js', 'Python', 'PostgreSQL',
-    'Docker', 'GSAP', 'Tailwind CSS', 'REST APIs', 'Git', 'FastAPI', 'WebSockets',
+    'SAP UI5', 'JavaScript', 'TypeScript', 'React',
+    'SAP Fiori', 'OData', 'ABAP', 'Node.js',
+    'Tailwind CSS', 'Git', 'Docker', 'Cloud Foundry',
 ]
 
 const Marquee = ({ reverse = false }) => (
