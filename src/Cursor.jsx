@@ -1,13 +1,27 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 const Cursor = () => {
     const dotRef  = useRef(null)
     const ringRef = useRef(null)
+    const [isFinePointer, setIsFinePointer] = useState(false)
 
     useEffect(() => {
-        // Only on fine-pointer devices (mouse / trackpad)
-        if (window.matchMedia('(pointer: coarse)').matches) return
+        const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+        const updatePointerMode = () => setIsFinePointer(mediaQuery.matches)
+        updatePointerMode()
+
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', updatePointerMode)
+            return () => mediaQuery.removeEventListener('change', updatePointerMode)
+        }
+
+        mediaQuery.addListener(updatePointerMode)
+        return () => mediaQuery.removeListener(updatePointerMode)
+    }, [])
+
+    useEffect(() => {
+        if (!isFinePointer) return
 
         const dot  = dotRef.current
         const ring = ringRef.current
@@ -68,20 +82,22 @@ const Cursor = () => {
                 el.removeEventListener('mouseleave', onLeave)
             })
         }
-    }, [])
+    }, [isFinePointer])
+
+    if (!isFinePointer) return null
 
     return (
         <>
             {/* Inner dot */}
             <div
                 ref={dotRef}
-                className="fixed top-0 left-0 z-[300] pointer-events-none"
+                className="fixed top-0 left-0 z-300 pointer-events-none"
                 style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF5C2B' }}
             />
             {/* Outer ring */}
             <div
                 ref={ringRef}
-                className="fixed top-0 left-0 z-[300] pointer-events-none"
+                className="fixed top-0 left-0 z-300 pointer-events-none"
                 style={{ width: 34, height: 34, borderRadius: '50%', border: '1.5px solid rgba(255,92,43,0.45)' }}
             />
         </>
