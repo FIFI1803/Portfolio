@@ -31,7 +31,8 @@ const Experience = () => {
     }, [loaded])
 
     return (
-        <section ref={root} id="experience" className="relative z-[6] px-6 md:px-16 py-20 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="experience" className="relative z-[6] px-6 md:px-8 py-20 md:min-h-screen flex flex-col justify-center">
+            <div className="max-w-7xl mx-auto w-full flex flex-col">
 
             <p className="exp-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-3">Where I've worked</p>
             <h2 className="exp-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading mb-12 lg:mb-16">Experience</h2>
@@ -85,6 +86,7 @@ const Experience = () => {
                         </div>
                     ))}
                 </div>
+            </div>
             </div>
         </section>
     )
