@@ -47,11 +47,11 @@ const Cursor = () => {
         }
 
         const onEnter = () => {
-            gsap.to(ring, { scale: 1.7, borderColor: 'rgba(255,92,43,0.9)', duration: 0.3, ease: 'power2.out' })
+            gsap.to(ring, { scale: 1.7, borderColor: 'rgba(0,212,170,0.9)', duration: 0.3, ease: 'power2.out' })
             gsap.to(dot,  { scale: 0,   duration: 0.25 })
         }
         const onLeave = () => {
-            gsap.to(ring, { scale: 1,   borderColor: 'rgba(255,92,43,0.45)', duration: 0.4, ease: 'power2.out' })
+            gsap.to(ring, { scale: 1,   borderColor: 'rgba(0,212,170,0.45)', duration: 0.4, ease: 'power2.out' })
             gsap.to(dot,  { scale: 1,   duration: 0.3 })
         }
 
@@ -92,13 +92,13 @@ const Cursor = () => {
             <div
                 ref={dotRef}
                 className="fixed top-0 left-0 z-300 pointer-events-none"
-                style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF5C2B' }}
+                style={{ width: 7, height: 7, borderRadius: '50%', background: '#00D4AA' }}
             />
             {/* Outer ring */}
             <div
                 ref={ringRef}
                 className="fixed top-0 left-0 z-300 pointer-events-none"
-                style={{ width: 34, height: 34, borderRadius: '50%', border: '1.5px solid rgba(255,92,43,0.45)' }}
+                style={{ width: 34, height: 34, borderRadius: '50%', border: '1.5px solid rgba(0,212,170,0.45)' }}
             />
         </>
     )

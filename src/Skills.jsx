@@ -78,7 +78,7 @@ const Skills = () => {
                                     key={skill.id}
                                     className={`skill-chip flex items-center gap-2 px-4 py-2 rounded-full text-sm font-dm border transition-colors cursor-default ${
                                         skill.accent
-                                            ? 'bg-[rgba(255,92,43,0.08)] text-ember border-[rgba(255,92,43,0.25)] hover:bg-[rgba(255,92,43,0.14)]'
+                                            ? 'bg-[rgba(0,212,170,0.08)] text-ember border-[rgba(0,212,170,0.25)] hover:bg-[rgba(0,212,170,0.14)]'
                                             : 'bg-surface2 text-subtle border-brand-border hover:text-body'
                                     }`}
                                 >
@@ -107,7 +107,7 @@ const Skills = () => {
                                         <Tag
                                             key={cert.id}
                                             {...(cert.verify_url ? { href: cert.verify_url, target: '_blank', rel: 'noreferrer' } : {})}
-                                            className="cert-badge group relative flex flex-col items-center gap-4 p-5 w-44 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(255,92,43,0.4)] hover:bg-surface2 transition-all duration-300 overflow-hidden text-center"
+                                            className="cert-badge group relative flex flex-col items-center gap-4 p-5 w-44 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(0,212,170,0.4)] hover:bg-surface2 transition-all duration-300 overflow-hidden text-center"
                                         >
                                             {/* Ember top line */}
                                             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ember to-transparent opacity-0 group-hover:opacity-60 transition-opacity" />

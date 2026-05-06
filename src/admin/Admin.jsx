@@ -125,7 +125,7 @@ const SkillsTab = ({ toast }) => {
                 {items.map(item => (
                     <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-surface border border-brand-border rounded-xl">
                         <div className="flex items-center gap-3">
-                            <span className={`px-2.5 py-1 rounded-full text-xs font-dm border ${item.accent ? 'bg-[rgba(255,92,43,0.1)] text-ember border-[rgba(255,92,43,0.25)]' : 'bg-surface2 text-subtle border-brand-border'}`}>{item.name}</span>
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-dm border ${item.accent ? 'bg-[rgba(0,212,170,0.1)] text-ember border-[rgba(0,212,170,0.25)]' : 'bg-surface2 text-subtle border-brand-border'}`}>{item.name}</span>
                         </div>
                         <div className="flex gap-2">
                             <Btn variant="ghost" onClick={() => openEdit(item)}>Edit</Btn>

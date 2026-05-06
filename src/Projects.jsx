@@ -67,7 +67,7 @@ const Projects = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
                 {projects.map((project) => (
                     <div key={project.id} className="tilt-wrapper project-card" style={{ willChange: 'transform' }}>
-                        <div className="group flex flex-col h-full bg-surface border border-brand-border rounded-2xl overflow-hidden hover:border-[rgba(255,92,43,0.35)] transition-colors duration-300">
+                        <div className="group flex flex-col h-full bg-surface border border-brand-border rounded-2xl overflow-hidden hover:border-[rgba(0,212,170,0.35)] transition-colors duration-300">
 
                             {/* Screenshot */}
                             <div className="relative w-full aspect-video bg-surface2 flex items-center justify-center border-b border-brand-border overflow-hidden">

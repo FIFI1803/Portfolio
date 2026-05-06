@@ -44,10 +44,10 @@ const Experience = () => {
                     {experiences.map((exp) => (
                         <div key={exp.id} className="flex gap-8 sm:gap-10">
                             <div className="exp-dot relative z-10 flex-shrink-0 w-6 flex justify-center pt-[22px]">
-                                <div className="w-[9px] h-[9px] rounded-full bg-ember ring-4 ring-obsidian shadow-[0_0_12px_rgba(255,92,43,0.7)]" />
+                                <div className="w-[9px] h-[9px] rounded-full bg-ember ring-4 ring-obsidian shadow-[0_0_12px_rgba(0,212,170,0.7)]" />
                             </div>
 
-                            <div className="exp-card flex-1 relative p-6 md:p-7 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(255,92,43,0.3)] transition-all duration-300 overflow-hidden">
+                            <div className="exp-card flex-1 relative p-6 md:p-7 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(0,212,170,0.3)] transition-all duration-300 overflow-hidden">
                                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ember to-transparent opacity-40" />
 
                                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">

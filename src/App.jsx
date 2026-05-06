@@ -154,7 +154,7 @@ const App = () => {
                     style={{
                         '--gx': '75%',
                         '--gy': '20%',
-                        background: 'radial-gradient(ellipse 48% 48% at var(--gx) var(--gy), rgba(255,92,43,0.11) 0%, transparent 68%)',
+                        background: 'radial-gradient(ellipse 48% 48% at var(--gx) var(--gy), rgba(0,212,170,0.11) 0%, transparent 68%)',
                     }}
                 />
 
