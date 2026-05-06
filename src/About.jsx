@@ -47,7 +47,8 @@ const About = () => {
     }, [])
 
     return (
-        <section ref={root} id="about" className="relative z-[6] px-6 md:px-16 py-16 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="about" className="relative z-[6] px-6 md:px-8 py-16 md:min-h-screen flex flex-col justify-center">
+            <div className="max-w-7xl mx-auto w-full flex flex-col">
 
             {/* Label */}
             <p className="about-label text-ember text-sm font-syne font-medium tracking-widest uppercase mb-4">About Me</p>
@@ -119,6 +120,7 @@ const About = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
     )

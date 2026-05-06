@@ -39,8 +39,8 @@ const Navigation = () => {
     }
 
     return (
-        <nav className="sticky top-0 z-50 px-6 md:px-16 py-4 md:py-6">
-            <div className="flex items-center justify-between">
+        <nav className="sticky top-0 z-50 py-4 md:py-6 px-6 md:px-8">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Desktop pill nav */}
                 <div className="hidden md:flex px-2 py-2 backdrop-blur-md bg-white/5 border border-brand-border rounded-full items-center gap-2">
                     {links.map((link) => (

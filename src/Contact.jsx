@@ -49,7 +49,8 @@ const Contact = () => {
     }
 
     return (
-        <section ref={root} id="contact" className="relative z-[6] px-6 md:px-16 py-16 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="contact" className="relative z-[6] px-6 md:px-8 py-16 md:min-h-screen flex flex-col justify-center">
+            <div className="max-w-7xl mx-auto w-full flex flex-col">
 
             {/* Editorial heading */}
             <p className="contact-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-4">Let's talk</p>
@@ -177,6 +178,7 @@ const Contact = () => {
             <div className="contact-footer mt-16 md:mt-24 pt-8 border-t border-brand-border flex flex-col sm:flex-row justify-between items-center gap-2">
                 <p className="text-muted text-sm font-dm">© 2026 Filip Galach. All rights reserved.</p>
                 <p className="text-muted text-sm font-dm">Built with React & Tailwind CSS</p>
+            </div>
             </div>
         </section>
     )

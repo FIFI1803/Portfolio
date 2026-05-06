@@ -58,7 +58,8 @@ const Projects = () => {
     }, [loaded])
 
     return (
-        <section ref={root} id="projects" className="relative z-[6] px-6 md:px-16 py-20 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="projects" className="relative z-[6] px-6 md:px-8 py-20 md:min-h-screen flex flex-col justify-center">
+            <div className="max-w-7xl mx-auto w-full flex flex-col">
 
             <p className="projects-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-3">What I've built</p>
             <h2 className="projects-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading mb-12 lg:mb-16">My Work</h2>
@@ -106,6 +107,7 @@ const Projects = () => {
                         </div>
                     </div>
                 ))}
+            </div>
             </div>
         </section>
     )
