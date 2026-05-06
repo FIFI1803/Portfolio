@@ -64,8 +64,8 @@ const Navigation = () => {
 
                 <div className="flex items-center gap-3">
                     <a
-                        href="/Filip_Galach_Resume.pdf"
-                        download="Filip_Galach_CV.pdf"
+                        href="/Filip Galach Resume.pdf"
+                        download="Filip Galach CV.pdf"
                         className="px-5 py-2.5 md:px-6 md:py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
                     >
                         Download CV
