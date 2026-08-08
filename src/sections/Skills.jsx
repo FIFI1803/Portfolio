@@ -1,26 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { supabase } from './lib/supabase'
+import { useCollection } from '../hooks/useCollection'
 
 const Skills = () => {
     const root = useRef(null)
-    const [skills, setSkills] = useState([])
-    const [education, setEducation] = useState([])
-    const [loaded, setLoaded] = useState(false)
+    const { rows: skills, status: skillsStatus } = useCollection('skills')
+    const { rows: education, status: educationStatus } = useCollection('education')
+    const ready = skillsStatus !== 'loading' && educationStatus !== 'loading'
 
     useEffect(() => {
-        Promise.all([
-            supabase.from('skills').select('*').order('sort_order'),
-            supabase.from('education').select('*').order('sort_order'),
-        ]).then(([{ data: s }, { data: e }]) => {
-            setSkills(s || [])
-            setEducation(e || [])
-            setLoaded(true)
-        })
-    }, [])
-
-    useEffect(() => {
-        if (!loaded) return
+        if (!ready) return
 
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({
@@ -48,7 +37,7 @@ const Skills = () => {
         }, root)
 
         return () => ctx.revert()
-    }, [loaded])
+    }, [ready])
 
     const certs  = education.filter(e => e.type === 'certification')
     const eduItems = education.filter(e => e.type === 'education')

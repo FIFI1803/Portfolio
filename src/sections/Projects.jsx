@@ -1,21 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { supabase } from './lib/supabase'
+import { useCollection } from '../hooks/useCollection'
 
 const Projects = () => {
     const root = useRef(null)
-    const [projects, setProjects] = useState([])
-    const [loaded, setLoaded] = useState(false)
+    const { rows: projects, status } = useCollection('projects')
 
     useEffect(() => {
-        supabase.from('projects').select('*').order('sort_order').then(({ data }) => {
-            setProjects(data || [])
-            setLoaded(true)
-        })
-    }, [])
-
-    useEffect(() => {
-        if (!loaded) return
+        if (status !== 'ready') return
 
         const ctx = gsap.context(() => {
             gsap.timeline({
@@ -55,7 +47,7 @@ const Projects = () => {
         }
 
         return () => ctx.revert()
-    }, [loaded])
+    }, [status])
 
     return (
         <section ref={root} id="projects" className="relative z-[6] px-6 md:px-8 py-20 md:min-h-screen flex flex-col justify-center">
@@ -63,6 +55,13 @@ const Projects = () => {
 
             <p className="projects-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-3">What I've built</p>
             <h2 className="projects-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading mb-12 lg:mb-16">My Work</h2>
+
+            {status === 'error' && projects.length === 0 && (
+                <p className="text-subtle text-sm font-dm">
+                    Projects couldn&apos;t be loaded right now — you can see my work on{' '}
+                    <a href="https://github.com/FIFI1803" target="_blank" rel="noreferrer" className="text-ember hover:underline">GitHub</a>.
+                </p>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
                 {projects.map((project) => (
@@ -99,7 +98,7 @@ const Projects = () => {
                                 </div>
                                 <p className="text-body text-sm font-dm leading-relaxed flex-1">{project.description}</p>
                                 <div className="flex flex-wrap gap-1.5 pt-1">
-                                    {project.tags.map(tag => (
+                                    {(project.tags ?? []).map(tag => (
                                         <span key={tag} className="px-2.5 py-1 bg-obsidian text-muted font-dm text-xs rounded-full border border-brand-border">{tag}</span>
                                     ))}
                                 </div>

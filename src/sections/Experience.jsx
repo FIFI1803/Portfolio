@@ -1,21 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { supabase } from './lib/supabase'
+import { useCollection } from '../hooks/useCollection'
 
 const Experience = () => {
     const root = useRef(null)
-    const [experiences, setExperiences] = useState([])
-    const [loaded, setLoaded] = useState(false)
+    const { rows: experiences, status } = useCollection('experience')
 
     useEffect(() => {
-        supabase.from('experience').select('*').order('sort_order').then(({ data }) => {
-            setExperiences(data || [])
-            setLoaded(true)
-        })
-    }, [])
-
-    useEffect(() => {
-        if (!loaded) return
+        if (status !== 'ready') return
 
         const ctx = gsap.context(() => {
             gsap.timeline({
@@ -28,7 +20,7 @@ const Experience = () => {
         }, root)
 
         return () => ctx.revert()
-    }, [loaded])
+    }, [status])
 
     return (
         <section ref={root} id="experience" className="relative z-[6] px-6 md:px-8 py-20 md:min-h-screen flex flex-col justify-center">
@@ -75,7 +67,7 @@ const Experience = () => {
                                 </div>
 
                                 <ul className="flex flex-col gap-2.5">
-                                    {exp.bullets.map((b, j) => (
+                                    {(exp.bullets ?? []).map((b, j) => (
                                         <li key={j} className="flex items-start gap-3 text-body text-sm font-dm leading-relaxed">
                                             <span className="mt-2 w-1 h-1 rounded-full bg-ember/60 shrink-0" />
                                             {b}

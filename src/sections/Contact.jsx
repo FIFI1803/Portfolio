@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { supabase } from './lib/supabase'
+import { supabase } from '../lib/supabase'
 
 const Contact = () => {
     const root = useRef(null)
@@ -31,6 +31,12 @@ const Contact = () => {
 
     const submit = async (e) => {
         e.preventDefault()
+
+        if (!supabase) {
+            setStatus('error')
+            return
+        }
+
         setStatus('sending')
         const { error } = await supabase.from('contact_messages').insert({
             name:    form.name.trim(),
@@ -163,7 +169,10 @@ const Contact = () => {
                         className="contact-field px-5 py-4 bg-surface text-heading placeholder-muted font-dm rounded-2xl border border-brand-border focus:outline-none focus:border-ember transition-colors text-sm resize-none"
                     />
                     {status === 'error' && (
-                        <p className="text-red-400 text-sm font-dm">Something went wrong. Please try again or email me directly.</p>
+                        <p role="alert" className="text-red-400 text-sm font-dm">
+                            Something went wrong sending that. Please email me directly at{' '}
+                            <a href="mailto:filipgalach@gmail.com" className="underline hover:text-ember">filipgalach@gmail.com</a>.
+                        </p>
                     )}
                     <button
                         type="submit"

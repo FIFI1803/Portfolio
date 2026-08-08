@@ -1,21 +1,18 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import Navigation from './Navigation'
-import Hero from './Hero'
-import About from './About'
-import Skills from './Skills'
-import Experience from './Experience'
-import Projects from './Projects'
-import Contact from './Contact'
-import Marquee from './Marquee'
-import Cursor from './Cursor'
+import Navigation from './components/Navigation'
+import Hero from './sections/Hero'
+import About from './sections/About'
+import Skills from './sections/Skills'
+import Experience from './sections/Experience'
+import Projects from './sections/Projects'
+import Contact from './sections/Contact'
+import Marquee from './components/Marquee'
+import Cursor from './components/Cursor'
+import { useReducedMotion } from './hooks/useReducedMotion'
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
-
-const SECTION_IDS = ['home', 'about', 'skills', 'experience', 'projects', 'contact']
-const NAV_HEIGHT = 80
+gsap.registerPlugin(ScrollTrigger)
 
 // Scramble a text element through random chars before resolving
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -42,9 +39,23 @@ const scramble = (el) => {
 
 const App = () => {
     const glowRef = useRef(null)
+    const reducedMotion = useReducedMotion()
 
-    // Glow scroll animation
+    // Global motion kill-switch.
+    //
+    // Every section builds its own GSAP timeline, so rather than thread a flag
+    // through all of them, run the global timeline fast enough that tweens
+    // resolve to their end state within a frame. Sections keep their final
+    // layout; nothing visibly moves. Phase 4 replaces this with per-animation
+    // gsap.matchMedia() once the motion pass rebuilds them properly.
     useEffect(() => {
+        gsap.globalTimeline.timeScale(reducedMotion ? 1000 : 1)
+    }, [reducedMotion])
+
+    // Ambient glow that drifts with scroll — purely decorative, so it is
+    // skipped outright rather than sped up when motion is reduced.
+    useEffect(() => {
+        if (reducedMotion) return
         const glow = glowRef.current
 
         const scrollTl = gsap.timeline({
@@ -66,65 +77,15 @@ const App = () => {
         const floatY = gsap.to(glow, { y: 30, duration: 4.5, ease: 'sine.inOut', repeat: -1, yoyo: true })
 
         return () => { scrollTl.kill(); floatX.kill(); floatY.kill() }
-    }, [])
+    }, [reducedMotion])
 
-    // Scroll snap assist — snaps to nearest section boundary when user pauses near one
+    // Scramble-in on section headings
     useEffect(() => {
-        // Skip on touch/mobile — native momentum scroll feels better there
-        if (window.matchMedia('(pointer: coarse)').matches) return
+        if (reducedMotion) return
 
-        let timer = null
-        let snapping = false
-
-        const getNearestSnap = () => {
-            const viewH = window.innerHeight
-            const scrollY = window.scrollY
-            const threshold = viewH * 0.28 // snap zone: within 28% of viewport height from a boundary
-
-            let best = null
-            let bestDist = Infinity
-
-            SECTION_IDS.forEach((id) => {
-                const el = document.getElementById(id)
-                if (!el) return
-                const target = Math.max(0, el.offsetTop - NAV_HEIGHT)
-                const dist = Math.abs(scrollY - target)
-                if (dist < bestDist) { bestDist = dist; best = target }
-            })
-
-            // Only act if we're within the threshold AND not already there
-            if (best !== null && bestDist < threshold && bestDist > 8) return best
-            return null
-        }
-
-        const onScrollEnd = () => {
-            if (snapping) return
-            const target = getNearestSnap()
-            if (target === null) return
-            snapping = true
-            gsap.to(window, {
-                scrollTo: { y: target, autoKill: true },
-                duration: 0.65,
-                ease: 'power3.inOut',
-                onComplete: () => { snapping = false },
-                onInterrupt: () => { snapping = false },
-            })
-        }
-
-        const onScroll = () => {
-            if (snapping) return
-            clearTimeout(timer)
-            timer = setTimeout(onScrollEnd, 160)
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true })
-        return () => { window.removeEventListener('scroll', onScroll); clearTimeout(timer) }
-    }, [])
-
-    // Global scramble on all section h2 headings
-    useEffect(() => {
         const headings = document.querySelectorAll('section h2')
         const triggers = []
+        const timers = []
 
         headings.forEach((el) => {
             // Skip headings that contain child elements (spans, br, etc.)
@@ -135,21 +96,31 @@ const App = () => {
                 trigger: el,
                 start: 'top 82%',
                 once: true,
-                onEnter: () => setTimeout(() => scramble(el), 250),
+                onEnter: () => timers.push(setTimeout(() => scramble(el), 250)),
             })
             triggers.push(st)
         })
 
-        return () => triggers.forEach((t) => t.kill())
-    }, [])
+        return () => {
+            triggers.forEach((t) => t.kill())
+            timers.forEach(clearTimeout)
+        }
+    }, [reducedMotion])
 
     return (
         <>
             <Cursor />
+            <a
+                href="#about"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[400] focus:px-4 focus:py-2 focus:rounded-full focus:bg-ember focus:text-obsidian focus:font-syne focus:font-semibold focus:text-sm"
+            >
+                Skip to content
+            </a>
             <div className="flex flex-col bg-obsidian overflow-x-clip">
                 {/* Floating ember glow */}
                 <div
                     ref={glowRef}
+                    aria-hidden="true"
                     className="fixed inset-0 z-[5] pointer-events-none"
                     style={{
                         '--gx': '75%',
@@ -159,17 +130,19 @@ const App = () => {
                 />
 
                 <Navigation />
-                <Hero />
-                <Marquee />
-                <About />
-                <Marquee reverse />
-                <Skills />
-                <Marquee />
-                <Experience />
-                <Marquee reverse />
-                <Projects />
-                <Marquee />
-                <Contact />
+                <main>
+                    <Hero />
+                    <Marquee />
+                    <About />
+                    <Marquee reverse />
+                    <Skills />
+                    <Marquee />
+                    <Experience />
+                    <Marquee reverse />
+                    <Projects />
+                    <Marquee />
+                    <Contact />
+                </main>
             </div>
         </>
     )

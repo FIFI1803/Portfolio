@@ -678,6 +678,8 @@ const Admin = () => {
     }
 
     useEffect(() => {
+        // Hooks run even when the render below bails out on a missing client.
+        if (!supabase) return
         supabase.auth.getSession().then(({ data: { session } }) => { setSession(session); if (session) loadUnread() })
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => { setSession(s); if (s) loadUnread() })
         return () => subscription.unsubscribe()
@@ -691,6 +693,18 @@ const Admin = () => {
     const signOut = async () => {
         await supabase.auth.signOut()
     }
+
+    if (!supabase) return (
+        <div className="min-h-screen bg-obsidian flex items-center justify-center px-6">
+            <div className="max-w-md text-center flex flex-col gap-2">
+                <p className="font-syne text-lg font-semibold text-heading">Admin unavailable</p>
+                <p className="text-subtle text-sm font-dm">
+                    This deploy has no Supabase credentials. Set VITE_SUPABASE_URL and
+                    VITE_SUPABASE_ANON_KEY, then redeploy.
+                </p>
+            </div>
+        </div>
+    )
 
     if (session === undefined) return (
         <div className="min-h-screen bg-obsidian flex items-center justify-center">
