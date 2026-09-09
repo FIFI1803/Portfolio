@@ -129,9 +129,17 @@ Token names describe what they are, so the failure mode from §2 (names that lie
 
 Restrained and scroll-driven: opacity, ≤24 px offsets, and slight image scale on reveal. Removed entirely: the text-scramble effect, the custom cursor, the tech marquee, the count-up stat animation, and the animated language bars.
 
-**One rule governs all of it: content renders visible by default and animation only enhances.** Implemented as `gsap.fromTo()` with an explicit visible end state, or CSS classes toggled by ScrollTrigger — never bare `gsap.from({opacity: 0})`, which is what makes F3 catastrophic instead of cosmetic. If JavaScript fails, GSAP fails to load, or a trigger misfires, the page is still fully readable.
+**One rule governs all of it: content renders visible by default and animation only enhances.**
 
-`prefers-reduced-motion` disables transforms and reveals while leaving all content visible.
+**GSAP and ScrollTrigger are removed entirely.** Reveals move to `IntersectionObserver` plus CSS transitions. This is not a stylistic preference — it is the actual fix for F3. ScrollTrigger caches element positions at registration time, which is precisely why async content that grows the page leaves stale triggers and permanently invisible sections; `ScrollTrigger.refresh()` only patches that, whereas an IntersectionObserver has no cached geometry to invalidate. The motion this design calls for — opacity, ≤24 px offsets, slight image scale — needs nothing more. Dropping GSAP also removes roughly 25 kB gzip, which is most of the §7 budget reduction.
+
+Three layered guarantees, so no single failure blanks the page:
+
+1. The hidden state is applied by JavaScript only — CSS never hides content on its own.
+2. If `IntersectionObserver` is unavailable, content renders visible immediately.
+3. A 2.5-second fallback timer reveals everything regardless, cleared when the observer fires.
+
+`prefers-reduced-motion` disables transforms and transitions while leaving all content visible.
 
 ---
 
@@ -208,7 +216,7 @@ The root cause of F2 is that remote data is the *only* source of content. The fi
 
 - A `src/content/` module holds the canonical content for projects, experience, skills and education, compiled into the bundle and derived from the CV.
 - Components render local content immediately on first paint.
-- Supabase is queried in the background; when it responds with a non-empty result it **replaces** local content, and `ScrollTrigger.refresh()` is called afterwards (F3).
+- Supabase is queried in the background; when it responds with a non-empty result it **replaces** local content. No trigger-position refresh is needed, because §3.5 removes ScrollTrigger — an `IntersectionObserver` re-evaluates naturally when the page grows (F3).
 - When Supabase is paused, slow, or errors, the visitor sees a complete site and never learns anything was wrong.
 
 This keeps the admin panel useful for live edits while removing the single point of failure. It also means the site survives Supabase's free-tier auto-pause, which is what caused this failure in the first place.
@@ -225,7 +233,7 @@ src/
   components/
     Section.jsx       ground (light|dark), spacing, max-width, heading slot
     CaseRow.jsx       one Work entry — image, index, problem/build/outcome, stack
-    Reveal.jsx        scroll reveal wrapper; visible by default, honours reduced-motion
+    Reveal.jsx        IntersectionObserver reveal; visible by default, honours reduced-motion
     Prose.jsx         measure-capped body text
   sections/           Hero, Work, Sap, About, Stack, Contact
   lib/
@@ -233,7 +241,7 @@ src/
     useContent.js     local-first content hook with remote override
 ```
 
-`Reveal` centralises the visible-by-default rule so no section can reintroduce the `gsap.from({opacity: 0})` failure mode.
+`Reveal` is the single place the visible-by-default rule lives, so no section can reintroduce the invisible-content failure mode. It is the only component allowed to hide anything.
 
 Admin moves behind `React.lazy` + `Suspense` in `main.jsx`, removing it from the public bundle (F4).
 
@@ -245,7 +253,7 @@ Admin moves behind `React.lazy` + `Suspense` in `main.jsx`, removing it from the
 |------|----------|
 | Copy `~/Desktop/Areas/Career/Filip Galach Resume.pdf` → `public/filip-galach-cv.pdf`; update the link | F1 |
 | Local-first content layer (§5) | F2 |
-| `ScrollTrigger.refresh()` after remote content replaces local | F3 |
+| Remove GSAP + ScrollTrigger; reveals via `IntersectionObserver` + CSS transitions (§3.5) | F3 |
 | `React.lazy` the admin route | F4 |
 | Resize and re-encode images to AVIF + WebP with JPEG fallback; add `width`/`height`, `loading="lazy"`, `decoding="async"`; rename `JPEG image.png` | F5 |
 | Fix the 5 `react-hooks/set-state-in-effect` errors in `Admin.jsx` | F6 |
@@ -279,7 +287,8 @@ Work is not complete until all of the following are observed, not assumed:
 5. Playwright screenshots at 390 / 768 / 1440 px, checked for layout defects and horizontal overflow.
 6. Keyboard-only pass: every interactive element reachable with a visible focus ring.
 7. Total transferred image weight ≤ 500 kB.
-8. With JavaScript disabled, the page still shows readable content.
+8. With `IntersectionObserver` stubbed out, all content is still visible — the direct regression test for the §3.5 guarantees.
+9. `gsap` no longer appears in `package.json` or in the build output.
 
 ---
 
