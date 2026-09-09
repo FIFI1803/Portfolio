@@ -91,7 +91,12 @@ const SkillsTab = ({ toast }) => {
         const { data } = await supabase.from('skills').select('*').order('sort_order')
         setItems(data || [])
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => {
+        let active = true
+        supabase.from('skills').select('*').order('sort_order')
+            .then(({ data }) => { if (active) setItems(data || []) })
+        return () => { active = false }
+    }, [])
 
     const openAdd = () => { setForm(emptySkill); setModal('add') }
     const openEdit = (item) => { setForm({ name: item.name, accent: item.accent, icon_name: item.icon_name || '' }); setModal(item) }
@@ -177,7 +182,12 @@ const EducationTab = ({ toast }) => {
         const { data } = await supabase.from('education').select('*').order('sort_order')
         setItems(data || [])
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => {
+        let active = true
+        supabase.from('education').select('*').order('sort_order')
+            .then(({ data }) => { if (active) setItems(data || []) })
+        return () => { active = false }
+    }, [])
 
     const save = async () => {
         setSaving(true)
@@ -274,7 +284,12 @@ const ExperienceTab = ({ toast }) => {
         const { data } = await supabase.from('experience').select('*').order('sort_order')
         setItems(data || [])
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => {
+        let active = true
+        supabase.from('experience').select('*').order('sort_order')
+            .then(({ data }) => { if (active) setItems(data || []) })
+        return () => { active = false }
+    }, [])
 
     const save = async () => {
         setSaving(true)
@@ -390,7 +405,12 @@ const ProjectsTab = ({ toast }) => {
         const { data } = await supabase.from('projects').select('*').order('sort_order')
         setItems(data || [])
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => {
+        let active = true
+        supabase.from('projects').select('*').order('sort_order')
+            .then(({ data }) => { if (active) setItems(data || []) })
+        return () => { active = false }
+    }, [])
 
     const toPayload = (f) => ({ ...f, tags: f.tags.split(',').map(t => t.trim()).filter(Boolean), image_url: f.image_url || null })
     const fromItem = (item) => ({ name: item.name, description: item.description, tags: item.tags.join(', '), image_url: item.image_url || '', link: item.link })
@@ -473,7 +493,12 @@ const MessagesTab = ({ toast, onRead }) => {
             .order('created_at', { ascending: false })
         setItems(data || [])
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => {
+        let active = true
+        supabase.from('contact_messages').select('*').order('created_at', { ascending: false })
+            .then(({ data }) => { if (active) setItems(data || []) })
+        return () => { active = false }
+    }, [])
 
     const markRead = async (item) => {
         if (item.read) return
