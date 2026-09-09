@@ -234,7 +234,6 @@ src/
     Section.jsx       ground (light|dark), spacing, max-width, heading slot
     CaseRow.jsx       one Work entry — image, index, problem/build/outcome, stack
     Reveal.jsx        IntersectionObserver reveal; visible by default, honours reduced-motion
-    Prose.jsx         measure-capped body text
   sections/           Hero, Work, Sap, About, Stack, Contact
   lib/
     supabase.js       unchanged
