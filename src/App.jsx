@@ -1,7 +1,7 @@
 import Navigation from './Navigation'
 import Hero from './sections/Hero'
 import Work from './sections/Work'
-import Sap from './sections/Sap'
+import Experience from './sections/Experience'
 import About from './sections/About'
 import Stack from './sections/Stack'
 import Contact from './sections/Contact'
@@ -13,7 +13,7 @@ const App = () => (
     <main>
       <Hero />
       <Work />
-      <Sap />
+      <Experience />
       <About />
       <Stack />
       <Contact />

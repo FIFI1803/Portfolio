@@ -30,27 +30,34 @@ const About = () => (
 
       <div>
         <Reveal>
-          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)]">About</h2>
+          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)]">
+            Building enterprise software from Dublin
+          </h2>
         </Reveal>
 
         <Reveal delay={80}>
           <div className="measure mt-8 space-y-5 text-[17px] text-ink-2">
             <p>
-              I'm 22, based in Dublin, and two years into an ICT Associate
-              Professional apprenticeship at DDLETB Tallaght — a Level 6
-              programme that puts me in college and at SAP at the same time.
+              I&rsquo;m Filip — a Software Developer at SAP Ireland on the Software
+              Asset Management team. I build internal Fiori applications using SAP
+              UI5, JavaScript, and OData, currently leading front-end development
+              for the Publisher 360 Dashboard. Across three major projects,
+              I&rsquo;ve shipped features ranging from a 79-case UAT plan for a
+              Forecasting app to a custom Variable Management system that replaced
+              rigid static filters with a flexible, user-driven solution.
             </p>
             <p>
-              Before this I spent two years as a Duty Manager at SSP, running
-              shifts and a team of ten. I moved into software through self-study
-              and IBM SkillsBuild certifications, and the management job turned
-              out to be better preparation than I expected — most of the work is
-              still communication.
+              I&rsquo;m currently completing a Level 6 ICT Apprenticeship
+              (2024–2026), balancing academic study with daily enterprise
+              development. Before the pivot to tech, I spent two years as a Duty
+              Manager at SSP leading a team of 10 — a leadership background I now
+              bring to my code. I made the switch through self-study and IBM
+              SkillsBuild certifications.
             </p>
             <p>
-              Outside the office I run a Proxmox homelab on Docker, Portainer and
-              Tailscale, which is where most of what I know about networking and
-              containers actually came from.
+              Outside the office, I run a Proxmox homelab and build side projects
+              with React and Tailwind. When I&rsquo;m not at the terminal,
+              you&rsquo;ll find me at the gym or out for a run.
             </p>
           </div>
         </Reveal>

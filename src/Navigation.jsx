@@ -3,7 +3,7 @@ import { profile } from './content'
 
 const links = [
   { label: 'Work', href: '#work' },
-  { label: 'SAP', href: '#sap' },
+  { label: 'Experience', href: '#experience' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]

@@ -6,32 +6,28 @@ const Hero = () => (
     <div className="mx-auto grid max-w-[1240px] gap-14 px-6 pb-24 pt-16 md:px-10 md:pb-32 md:pt-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-20 lg:px-14">
       <div>
         <Reveal>
-          <h1 className="display text-[clamp(2.5rem,7.5vw,6.5rem)]">
-            I build the internal tools
-            <br />
-            that SAP runs on.
+          <p className="meta">Available for select opportunities</p>
+          <p className="meta mt-2">Software Developer / Dublin</p>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <h1 className="display mt-6 text-[clamp(3rem,9vw,7.5rem)]">
+            Filip Galach
           </h1>
         </Reveal>
 
-        <Reveal delay={120}>
-          <p className="measure mt-8 text-[17px] text-ink-2">
-            Software developer on the Software Asset Management team at SAP
-            Ireland, working in SAP UI5, JavaScript and OData. Currently leading
-            front-end development of the Publisher 360 Dashboard.
+        <Reveal delay={160}>
+          <p className="measure mt-8 border-t border-rule pt-8 text-[17px] text-ink-2">
+            Building thoughtful enterprise products and modern web experiences
+            with clarity, reliability, and purpose.
           </p>
         </Reveal>
 
-        <Reveal delay={200}>
-          <p className="meta mt-8">
-            {profile.role} · {profile.employer} {profile.team} · {profile.location} · since {profile.since}
-          </p>
-        </Reveal>
-
-        <Reveal delay={260}>
+        <Reveal delay={220}>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a href="#work"
                className="bg-ink px-6 py-3 text-[15px] text-paper transition-opacity hover:opacity-85">
-              See the work
+              View work
             </a>
             <a href={profile.cv} download
                className="border border-rule px-6 py-3 text-[15px] text-ink transition-colors hover:border-ink">
@@ -41,7 +37,7 @@ const Hero = () => (
         </Reveal>
       </div>
 
-      <Reveal delay={160} className="lg:pb-2">
+      <Reveal delay={140} className="lg:pb-2">
         <picture>
           <source type="image/avif" srcSet="/img/portrait-hero-640.avif" />
           <source type="image/webp" srcSet="/img/portrait-hero-640.webp" />

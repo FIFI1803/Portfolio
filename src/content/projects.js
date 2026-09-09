@@ -1,41 +1,24 @@
+/* Shape matches the `projects` table in Supabase exactly, so remote rows can
+   replace these without the section breaking. Copy is Filip's own, from CV. */
 export const projects = [
   {
     id: 'forever',
     name: 'FOREVER',
-    kind: 'Full-stack web application',
-    year: '2026',
-    sort_order: 1,
-    problem: 'I wanted one project that proved I could carry a feature the whole way down the stack, not just style a front end someone else had wired up.',
-    built: 'A full-stack e-commerce application — front-end design, back-end logic and database integration, built and joined together end to end.',
-    outcome: 'The project I point at when someone asks whether I can work outside a framework that was set up for me.',
-    tags: ['React', 'Node.js', 'Supabase', 'PostgreSQL'],
+    description:
+      'Full-stack web application showcasing end-to-end development skills including front-end design, back-end logic, and database integration.',
+    tags: ['Full Stack', 'React', 'Node.js'],
     image_url: null,
     link: null,
+    sort_order: 1,
   },
   {
     id: 'portfolio',
-    name: 'This site',
-    kind: 'React · Tailwind · Supabase',
-    year: '2026',
-    sort_order: 2,
-    problem: 'Editing my own portfolio meant a code change and a redeploy every time, so it never actually got updated.',
-    built: 'A custom CMS behind an authenticated admin route — projects, experience, skills and contact messages are all editable live. The content layer is local-first, so the site renders in full even when the database is asleep.',
-    outcome: 'Content changes take seconds and no deploy, and a paused database is invisible to visitors.',
-    tags: ['React 19', 'Tailwind v4', 'Supabase', 'Vercel'],
+    name: 'Portfolio Website',
+    description:
+      'Personal developer portfolio deployed on Vercel at filipgalach.dev, showcasing projects and professional profile.',
+    tags: ['React', 'Tailwind CSS', 'Vercel'],
     image_url: null,
     link: 'https://filipgalach.dev',
-  },
-  {
-    id: 'homelab',
-    name: 'Homelab',
-    kind: 'Self-hosted infrastructure',
-    year: '2025 — ongoing',
-    sort_order: 3,
-    problem: 'Reading about containers and networking was not teaching me how they actually break.',
-    built: 'A self-hosted Proxmox homelab running Docker, Portainer and Tailscale — services I deploy, expose and repair myself.',
-    outcome: 'Where the cloud fundamentals behind AZ-900 stopped being theory.',
-    tags: ['Proxmox', 'Docker', 'Portainer', 'Tailscale', 'Linux'],
-    image_url: null,
-    link: null,
+    sort_order: 2,
   },
 ]

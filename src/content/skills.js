@@ -1,12 +1,12 @@
+/* Shape matches the `skills` table in Supabase (name, accent, icon_name).
+   `group` is local-only: remote rows without it fall back to 'Technologies'. */
+const g = (group, names) =>
+  names.map(name => ({ id: `${group}-${name}`, name, group, accent: false, icon_name: null }))
+
 export const skills = [
-  { id: 'lang', group: 'Languages', sort_order: 1,
-    items: ['JavaScript', 'TypeScript', 'Python', 'SQL', 'HTML', 'CSS'] },
-  { id: 'fw', group: 'Frameworks & Libraries', sort_order: 2,
-    items: ['SAP UI5', 'SAP Fiori', 'SAP CAP', 'React', 'Node.js'] },
-  { id: 'plat', group: 'Platforms & Services', sort_order: 3,
-    items: ['SAP BTP', 'Cloud Foundry', 'OData', 'Git', 'GitHub', 'Docker', 'Linux', 'Vercel'] },
-  { id: 'tools', group: 'Developer Tools', sort_order: 4,
-    items: ['SAP Business Application Studio', 'VS Code', 'Jira', 'Proxmox', 'Portainer'] },
-  { id: 'method', group: 'Methodologies', sort_order: 5,
-    items: ['Agile', 'Scrum', 'Test-Driven Development', 'MVC Architecture'] },
-]
+  ...g('Languages', ['JavaScript', 'TypeScript', 'Python', 'SQL', 'HTML', 'CSS']),
+  ...g('Frameworks & Libraries', ['SAP UI5', 'SAP Fiori', 'SAP CAP', 'React', 'Node.js']),
+  ...g('Platforms & Services', ['SAP BTP', 'Cloud Foundry', 'OData', 'Git', 'GitHub', 'Docker', 'Linux', 'Vercel']),
+  ...g('Developer Tools', ['SAP Business Application Studio', 'VS Code', 'Jira', 'Proxmox', 'Portainer']),
+  ...g('Methodologies', ['Agile', 'Scrum', 'Test-Driven Development (TDD)', 'MVC Architecture']),
+].map((s, i) => ({ ...s, sort_order: i + 1 }))

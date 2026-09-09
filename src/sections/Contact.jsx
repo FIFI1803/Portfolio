@@ -45,11 +45,11 @@ const Contact = () => {
       <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
         <Reveal>
           <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)] text-noir-ink">
-            Get in touch
+            Got a project in mind?
           </h2>
           <p className="measure mt-6 text-[17px] text-noir-ink-2">
-            Open to conversations about front-end and full-stack work,
-            especially in enterprise contexts. I read everything that comes in.
+            Whether you have a project in mind, a job opportunity, or just want
+            to say hi — my inbox is always open.
           </p>
 
           <ul className="mt-10 space-y-3">

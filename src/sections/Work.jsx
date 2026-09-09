@@ -11,11 +11,8 @@ const Work = () => {
     <Section id="work" ground="dark">
       <Reveal>
         <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)] text-noir-ink">
-          Selected work
+          Projects built to solve real problems
         </h2>
-        <p className="measure mt-6 text-[17px] text-noir-ink-2">
-          Three things I built end to end, and what each one was actually for.
-        </p>
       </Reveal>
 
       <div className="mt-20 space-y-24">
