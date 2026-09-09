@@ -1,24 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-ember:        #FF5C2B;
-  --color-ember-dim:    #CC3A15;
-  --color-obsidian:     #0D0D0F;
-  --color-void:         #13131A;
-  --color-surface:      #1A1A24;
-  --color-surface2:     #22222F;
-  --color-brand-border: #2E2E40;
-  --color-muted:        #5A5A7A;
-  --color-subtle:       #8888AA;
-  --color-body:         #C4C4D4;
-  --color-heading:      #EEEEF5;
-  --color-ice:          #A8C8FF;
-  --color-sage:         #7FFFD4;
-  --color-gold:         #FFD166;
+  --color-ember:        #8BA8FF;
+  --color-ember-dim:    #6F8DE6;
+  --color-obsidian:     #0A0C10;
+  --color-void:         #0E1117;
+  --color-surface:      #12161D;
+  --color-surface2:     #181D26;
+  --color-brand-border: #29303B;
+  --color-muted:        #68717F;
+  --color-subtle:       #929CAA;
+  --color-body:         #BCC4CE;
+  --color-heading:      #F2F4F7;
+  --color-ice:          #AFC1FF;
+  --color-sage:         #8BA8FF;
+  --color-gold:         #B5C5F5;
 
-  --font-syne: 'Syne', sans-serif;
-  --font-dm:   'DM Sans', sans-serif;
+  --font-syne: 'Archivo', sans-serif;
+  --font-dm:   'Archivo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 html {
@@ -32,7 +33,54 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background-color: #0D0D0F;
-  color: #C4C4D4;
+  margin: 0;
+  font-family: 'Archivo', sans-serif;
+  background-color: #0A0C10;
+  color: #BCC4CE;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #8BA8FF;
+  color: #0A0C10;
+}
+
+.site-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-shell::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: '';
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
+}
+
+section {
+  border-top: 1px solid rgba(41, 48, 59, 0.75);
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

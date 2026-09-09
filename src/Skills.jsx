@@ -59,10 +59,10 @@ const Skills = () => {
     ]
 
     return (
-        <section ref={root} id="skills" className="relative z-[6] px-6 md:px-16 py-20 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="skills" className="relative z-[6] mx-auto flex w-full max-w-[1440px] flex-col justify-center px-6 py-24 md:min-h-screen md:px-10 lg:px-16 lg:py-32">
 
-            <p className="skills-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-3">What I know</p>
-            <h2 className="skills-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading mb-12 lg:mb-16">Skills & Background</h2>
+            <p className="skills-heading mb-8 text-[11px] font-mono uppercase tracking-[0.14em] text-ember">02 / Capabilities</p>
+            <h2 className="skills-heading mb-14 max-w-3xl font-syne text-4xl font-semibold tracking-[-0.045em] text-heading sm:text-5xl lg:mb-20 lg:text-6xl">Skills & Background</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
@@ -70,14 +70,14 @@ const Skills = () => {
                 <div className="lg:col-span-3 flex flex-col gap-10">
 
                     <div>
-                        <h3 className="text-muted text-xs font-syne uppercase tracking-[0.15em] mb-6">Technologies</h3>
-                        <div className="flex flex-wrap gap-2.5">
+                        <h3 className="text-subtle text-[10px] font-mono uppercase tracking-[0.14em] mb-6">Technologies</h3>
+                        <div className="flex flex-wrap gap-2">
                             {skills.map((skill) => (
                                 <span
                                     key={skill.id}
-                                    className={`skill-chip flex items-center gap-2 px-4 py-2 rounded-full text-sm font-dm border transition-colors cursor-default ${
+                                    className={`skill-chip flex items-center gap-2 rounded-[3px] border px-3.5 py-2 text-xs font-dm transition-colors cursor-default ${
                                         skill.accent
-                                            ? 'bg-[rgba(255,92,43,0.08)] text-ember border-[rgba(255,92,43,0.25)] hover:bg-[rgba(255,92,43,0.14)]'
+                                            ? 'bg-ember/8 text-ice border-ember/30 hover:bg-ember/12'
                                             : 'bg-surface2 text-subtle border-brand-border hover:text-body'
                                     }`}
                                 >
@@ -98,7 +98,7 @@ const Skills = () => {
                     {/* Cert badges — only shown when there are certifications */}
                     {certs.length > 0 && (
                         <div>
-                            <h3 className="text-muted text-xs font-syne uppercase tracking-[0.15em] mb-6">Certifications</h3>
+                            <h3 className="text-subtle text-[10px] font-mono uppercase tracking-[0.14em] mb-6">Certifications</h3>
                             <div className="flex flex-wrap gap-4">
                                 {certs.map((cert) => {
                                     const Tag = cert.verify_url ? 'a' : 'div'
@@ -106,11 +106,8 @@ const Skills = () => {
                                         <Tag
                                             key={cert.id}
                                             {...(cert.verify_url ? { href: cert.verify_url, target: '_blank', rel: 'noreferrer' } : {})}
-                                            className="cert-badge group relative flex flex-col items-center gap-4 p-5 w-44 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(255,92,43,0.4)] hover:bg-surface2 transition-all duration-300 overflow-hidden text-center"
+                                            className="cert-badge group relative flex w-44 flex-col items-center gap-4 overflow-hidden border border-brand-border bg-surface p-5 text-center transition-colors duration-300 hover:border-subtle hover:bg-surface2"
                                         >
-                                            {/* Ember top line */}
-                                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ember to-transparent opacity-0 group-hover:opacity-60 transition-opacity" />
-
                                             {/* Badge icon */}
                                             {cert.icon_url
                                                 ? (
@@ -121,7 +118,7 @@ const Skills = () => {
                                                         onError={e => { e.target.style.display = 'none' }}
                                                     />
                                                 ) : (
-                                                    <div className="w-20 h-20 rounded-2xl bg-ember/10 border border-ember/20 flex items-center justify-center">
+                                                    <div className="w-20 h-20 bg-ember/10 border border-ember/20 flex items-center justify-center">
                                                         <svg className="w-10 h-10 text-ember" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                                         </svg>
@@ -138,7 +135,7 @@ const Skills = () => {
 
                                             {/* Verify link label */}
                                             {cert.verify_url && (
-                                                <span className="text-[10px] font-syne uppercase tracking-wider text-ember/60 group-hover:text-ember transition-colors flex items-center gap-1">
+                                                <span className="text-[9px] font-mono uppercase tracking-wider text-ember/70 group-hover:text-ember transition-colors flex items-center gap-1">
                                                     Verify ↗
                                                 </span>
                                             )}
@@ -154,11 +151,11 @@ const Skills = () => {
                 <div className="lg:col-span-2 flex flex-col gap-10">
 
                     <div>
-                        <h3 className="text-muted text-xs font-syne uppercase tracking-[0.15em] mb-6">Education</h3>
+                        <h3 className="text-subtle text-[10px] font-mono uppercase tracking-[0.14em] mb-6">Education</h3>
                         <div className="flex flex-col gap-5">
                             {eduItems.map((item) => (
                                 <div key={item.id} className="edu-item flex items-start gap-3">
-                                    <div className="mt-1.5 w-2 h-2 rounded-full bg-ember shrink-0" />
+                                    <div className="mt-1.5 w-1.5 h-1.5 bg-ember shrink-0" />
                                     <div>
                                         <p className="text-heading font-dm font-medium text-sm">{item.title}</p>
                                         <p className="text-muted text-xs font-dm mt-0.5">{item.subtitle} · {item.period}</p>
@@ -169,7 +166,7 @@ const Skills = () => {
                     </div>
 
                     <div>
-                        <h3 className="text-muted text-xs font-syne uppercase tracking-[0.15em] mb-6">Languages</h3>
+                        <h3 className="text-subtle text-[10px] font-mono uppercase tracking-[0.14em] mb-6">Languages</h3>
                         <div className="flex flex-col gap-4">
                             {languages.map((lang) => (
                                 <div key={lang.name} className="lang-label">
@@ -177,8 +174,8 @@ const Skills = () => {
                                         <span className="text-heading text-sm font-dm font-medium">{lang.name}</span>
                                         <span className="text-muted text-xs font-dm">{lang.label}</span>
                                     </div>
-                                    <div className="h-1 bg-surface2 rounded-full overflow-hidden">
-                                        <div className="lang-bar h-full bg-ember rounded-full" data-level={lang.level} style={{ width: 0 }} />
+                                    <div className="h-px bg-surface2 overflow-hidden">
+                                        <div className="lang-bar h-full bg-ember" data-level={lang.level} style={{ width: 0 }} />
                                     </div>
                                 </div>
                             ))}

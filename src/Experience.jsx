@@ -31,44 +31,43 @@ const Experience = () => {
     }, [loaded])
 
     return (
-        <section ref={root} id="experience" className="relative z-[6] px-6 md:px-16 py-20 md:min-h-screen flex flex-col justify-center">
+        <section ref={root} id="experience" className="relative z-[6] mx-auto flex w-full max-w-[1440px] flex-col justify-center px-6 py-24 md:min-h-screen md:px-10 lg:px-16 lg:py-32">
 
-            <p className="exp-heading text-ember text-sm font-syne font-medium tracking-widest uppercase mb-3">Where I've worked</p>
-            <h2 className="exp-heading font-syne text-3xl sm:text-4xl lg:text-5xl font-bold text-heading mb-12 lg:mb-16">Experience</h2>
+            <p className="exp-heading mb-8 text-[11px] font-mono uppercase tracking-[0.14em] text-ember">03 / Experience</p>
+            <h2 className="exp-heading mb-14 max-w-3xl font-syne text-4xl font-semibold tracking-[-0.045em] text-heading sm:text-5xl lg:mb-20 lg:text-6xl">Where I've worked</h2>
 
-            <div className="relative max-w-3xl">
-                <div className="exp-line absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-ember via-ember/40 to-transparent" />
+            <div className="relative max-w-4xl">
+                <div className="exp-line absolute left-[11px] top-3 bottom-3 w-px bg-brand-border" />
 
                 <div className="flex flex-col gap-8">
                     {experiences.map((exp) => (
                         <div key={exp.id} className="flex gap-8 sm:gap-10">
                             <div className="exp-dot relative z-10 flex-shrink-0 w-6 flex justify-center pt-[22px]">
-                                <div className="w-[9px] h-[9px] rounded-full bg-ember ring-4 ring-obsidian shadow-[0_0_12px_rgba(255,92,43,0.7)]" />
+                                <div className="w-[7px] h-[7px] bg-ember ring-4 ring-obsidian" />
                             </div>
 
-                            <div className="exp-card flex-1 relative p-6 md:p-7 bg-surface border border-brand-border rounded-2xl hover:border-[rgba(255,92,43,0.3)] transition-all duration-300 overflow-hidden">
-                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ember to-transparent opacity-40" />
+                            <div className="exp-card flex-1 relative overflow-hidden border border-brand-border bg-surface p-6 transition-colors duration-300 hover:border-subtle md:p-8">
 
                                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
                                     <div className="flex items-start gap-3">
                                         {exp.logo_url
                                             ? (
-                                                <div className="mt-0.5 w-10 h-10 shrink-0 rounded-xl bg-white/5 border border-brand-border flex items-center justify-center p-1.5 overflow-hidden">
+                                                <div className="mt-0.5 w-10 h-10 shrink-0 bg-white/5 border border-brand-border flex items-center justify-center p-1.5 overflow-hidden">
                                                     <img src={exp.logo_url} alt={exp.company} className="w-full h-full object-contain" onError={e => { e.target.parentElement.style.display = 'none' }} />
                                                 </div>
                                             ) : (
-                                                <div className="mt-0.5 w-10 h-10 shrink-0 rounded-xl bg-surface2 border border-brand-border flex items-center justify-center">
+                                                <div className="mt-0.5 w-10 h-10 shrink-0 bg-surface2 border border-brand-border flex items-center justify-center">
                                                     <span className="text-subtle font-syne font-bold text-sm">{exp.company.charAt(0)}</span>
                                                 </div>
                                             )
                                         }
                                         <div>
-                                            <h3 className="text-heading font-syne text-lg md:text-xl font-semibold">{exp.role}</h3>
+                                            <h3 className="text-heading font-syne text-lg md:text-xl font-semibold tracking-[-0.02em]">{exp.role}</h3>
                                             <p className="text-subtle text-sm font-dm mt-0.5">{exp.company}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-row sm:flex-col sm:items-end gap-2 sm:gap-0.5 shrink-0 pl-[52px] sm:pl-0">
-                                        <span className="text-ember text-xs font-syne font-medium">{exp.period}</span>
+                                        <span className="text-ember text-[10px] font-mono uppercase tracking-[0.08em]">{exp.period}</span>
                                         <span className="text-muted text-xs font-dm">{exp.location}</span>
                                     </div>
                                 </div>

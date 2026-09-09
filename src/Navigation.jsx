@@ -39,18 +39,22 @@ const Navigation = () => {
     }
 
     return (
-        <nav className="sticky top-0 z-50 px-6 md:px-16 py-4 md:py-6">
-            <div className="flex items-center justify-between">
-                {/* Desktop pill nav */}
-                <div className="hidden md:flex px-2 py-2 backdrop-blur-md bg-white/5 border border-brand-border rounded-full items-center gap-2">
+        <nav className="sticky top-0 z-50 border-b border-brand-border/80 bg-obsidian/90 backdrop-blur-xl">
+            <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 md:h-[72px] md:px-10 lg:px-16">
+                <a href="#home" onClick={() => handleLinkClick('#home')} className="hidden md:flex items-center gap-3 text-heading font-syne font-semibold text-sm tracking-tight">
+                    <span className="flex h-7 w-7 items-center justify-center border border-brand-border bg-surface text-[10px] font-mono text-ember">FG</span>
+                    Filip Galach
+                </a>
+
+                <div className="hidden md:flex items-center gap-7">
                     {links.map((link) => (
                         <a
                             key={link.href}
                             href={link.href}
                             onClick={() => handleLinkClick(link.href)}
-                            className={`px-5 py-2 rounded-full transition-colors text-sm font-syne font-medium ${
+                            className={`relative py-2 transition-colors text-xs font-mono uppercase tracking-[0.08em] ${
                                 active === link.href
-                                    ? 'bg-white text-obsidian font-semibold'
+                                    ? 'text-heading after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-ember'
                                     : 'text-subtle hover:text-heading'
                             }`}
                         >
@@ -59,14 +63,13 @@ const Navigation = () => {
                     ))}
                 </div>
 
-                {/* Mobile: logo/name */}
-                <span className="md:hidden text-heading font-syne font-semibold text-sm">Filip Galach</span>
+                <a href="#home" onClick={() => handleLinkClick('#home')} className="md:hidden text-heading font-syne font-semibold text-sm">Filip Galach</a>
 
                 <div className="flex items-center gap-3">
                     <a
                         href="/Filip_Galach_Resume.pdf"
                         download="Filip_Galach_CV.pdf"
-                        className="px-5 py-2.5 md:px-6 md:py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
+                        className="px-4 py-2.5 md:px-5 md:py-3 bg-heading text-obsidian font-syne font-semibold rounded-[3px] hover:bg-ember transition-colors text-xs uppercase tracking-[0.06em]"
                     >
                         Download CV
                     </a>
@@ -85,13 +88,13 @@ const Navigation = () => {
             </div>
 
             {/* Mobile dropdown */}
-            <div className={`md:hidden absolute top-full left-4 right-4 mt-2 rounded-2xl backdrop-blur-md bg-white/5 border border-brand-border flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+            <div className={`md:hidden absolute top-full left-4 right-4 mt-2 bg-void border border-brand-border flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
                 {links.map((link) => (
                     <a
                         key={link.href}
                         href={link.href}
                         onClick={() => handleLinkClick(link.href)}
-                        className={`px-6 py-3.5 text-sm font-syne transition-colors ${active === link.href ? 'text-heading font-semibold' : 'text-subtle hover:text-heading'}`}
+                        className={`px-6 py-3.5 border-b border-brand-border/60 text-xs font-mono uppercase tracking-[0.08em] transition-colors ${active === link.href ? 'text-ember' : 'text-subtle hover:text-heading'}`}
                     >
                         {link.label}
                     </a>
