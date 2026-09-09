@@ -43,22 +43,24 @@ body {
 /* Caps the measure at roughly 68 characters. */
 .measure { max-width: 34em; }
 
-/* Display type is optically large; tighten tracking and pull the leading in. */
+/* Display type is optically large; tighten tracking and pull the leading in.
+   Deliberately sets NO colour: these classes are declared after Tailwind's
+   utilities, so a hardcoded colour here would beat text-noir-ink and render
+   near-black headings on the dark sections. Colour is always a utility. */
 .display {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.02;
-  color: #12120F;
 }
 
-/* Metadata: mono, small, never shouty. Deliberately not an eyebrow label. */
+/* Metadata: mono, small, never shouty. Deliberately not an eyebrow label.
+   Colour comes from a utility, for the same cascade reason as .display. */
 .meta {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 1.7;
-  color: #6E6C65;
 }
 
 /*

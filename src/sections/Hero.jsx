@@ -6,12 +6,12 @@ const Hero = () => (
     <div className="mx-auto grid max-w-[1240px] gap-14 px-6 pb-24 pt-16 md:px-10 md:pb-32 md:pt-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-20 lg:px-14">
       <div>
         <Reveal>
-          <p className="meta">Available for select opportunities</p>
-          <p className="meta mt-2">Software Developer / Dublin</p>
+          <p className="meta text-ink-3">Available for select opportunities</p>
+          <p className="meta mt-2 text-ink-3">Software Developer / Dublin</p>
         </Reveal>
 
         <Reveal delay={80}>
-          <h1 className="display mt-6 text-[clamp(3rem,9vw,7.5rem)]">
+          <h1 className="display mt-6 text-[clamp(3rem,9vw,7.5rem)] text-ink">
             Filip Galach
           </h1>
         </Reveal>

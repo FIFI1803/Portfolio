@@ -30,7 +30,7 @@ const About = () => (
 
       <div>
         <Reveal>
-          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)]">
+          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)] text-ink">
             Building enterprise software from Dublin
           </h2>
         </Reveal>
