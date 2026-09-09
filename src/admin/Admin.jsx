@@ -4,10 +4,10 @@ import { supabase } from '../lib/supabase'
 // ─── Reusable UI ────────────────────────────────────────────────────────────
 
 const Btn = ({ children, onClick, variant = 'primary', type = 'button', disabled }) => {
-    const base = 'px-4 py-2 rounded-lg font-dm text-sm font-medium transition-colors disabled:opacity-40'
+    const base = 'px-4 py-2 rounded-lg font-sans text-sm font-medium transition-colors disabled:opacity-40'
     const variants = {
-        primary:  'bg-ember text-obsidian hover:bg-ember-dim',
-        ghost:    'border border-brand-border text-subtle hover:text-heading hover:border-subtle',
+        primary:  'bg-noir-ink text-noir hover:bg-noir-ink-2',
+        ghost:    'border border-noir-rule text-noir-ink-2 hover:text-noir-ink hover:border-noir-ink-2',
         danger:   'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20',
     }
     return <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${variants[variant]}`}>{children}</button>
@@ -15,22 +15,22 @@ const Btn = ({ children, onClick, variant = 'primary', type = 'button', disabled
 
 const Input = ({ label, value, onChange, type = 'text', placeholder, required }) => (
     <div className="flex flex-col gap-1.5">
-        {label && <label className="text-muted text-xs font-dm uppercase tracking-wider">{label}</label>}
+        {label && <label className="text-noir-ink-3 text-xs font-sans uppercase tracking-wider">{label}</label>}
         <input
             type={type} value={value} onChange={e => onChange(e.target.value)}
             placeholder={placeholder} required={required}
-            className="px-3 py-2.5 bg-surface border border-brand-border rounded-lg text-heading text-sm font-dm placeholder-muted focus:outline-none focus:border-ember transition-colors"
+            className="px-3 py-2.5 bg-noir-2 border border-noir-rule rounded-lg text-noir-ink text-sm font-sans placeholder-noir-ink-3 focus:outline-none focus:border-noir-ink transition-colors"
         />
     </div>
 )
 
 const Textarea = ({ label, value, onChange, rows = 3, placeholder }) => (
     <div className="flex flex-col gap-1.5">
-        {label && <label className="text-muted text-xs font-dm uppercase tracking-wider">{label}</label>}
+        {label && <label className="text-noir-ink-3 text-xs font-sans uppercase tracking-wider">{label}</label>}
         <textarea
             value={value} onChange={e => onChange(e.target.value)}
             rows={rows} placeholder={placeholder}
-            className="px-3 py-2.5 bg-surface border border-brand-border rounded-lg text-heading text-sm font-dm placeholder-muted focus:outline-none focus:border-ember transition-colors resize-none"
+            className="px-3 py-2.5 bg-noir-2 border border-noir-rule rounded-lg text-noir-ink text-sm font-sans placeholder-noir-ink-3 focus:outline-none focus:border-noir-ink transition-colors resize-none"
         />
     </div>
 )
@@ -39,21 +39,21 @@ const Toggle = ({ label, checked, onChange }) => (
     <label className="flex items-center gap-3 cursor-pointer">
         <div
             onClick={() => onChange(!checked)}
-            className={`w-10 h-6 rounded-full transition-colors relative ${checked ? 'bg-ember' : 'bg-surface2'}`}
+            className={`w-10 h-6 rounded-full transition-colors relative ${checked ? 'bg-noir-ink' : 'bg-noir-2'}`}
         >
             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
         </div>
-        <span className="text-subtle text-sm font-dm">{label}</span>
+        <span className="text-noir-ink-2 text-sm font-sans">{label}</span>
     </label>
 )
 
 const Modal = ({ title, children, onClose }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-        <div className="absolute inset-0 bg-obsidian/80 backdrop-blur-sm" />
-        <div className="relative z-10 w-full max-w-lg bg-void border border-brand-border rounded-2xl p-6 flex flex-col gap-5 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="absolute inset-0 bg-noir/80 backdrop-blur-sm" />
+        <div className="relative z-10 w-full max-w-lg bg-noir border border-noir-rule rounded-2xl p-6 flex flex-col gap-5 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
-                <h3 className="font-syne text-lg font-semibold text-heading">{title}</h3>
-                <button onClick={onClose} className="text-muted hover:text-heading transition-colors text-xl leading-none">×</button>
+                <h3 className="font-display text-lg font-semibold text-noir-ink">{title}</h3>
+                <button onClick={onClose} className="text-noir-ink-3 hover:text-noir-ink transition-colors text-xl leading-none">×</button>
             </div>
             {children}
         </div>
@@ -62,7 +62,7 @@ const Modal = ({ title, children, onClose }) => (
 
 const ConfirmDelete = ({ name, onConfirm, onCancel }) => (
     <Modal title="Confirm Delete" onClose={onCancel}>
-        <p className="text-body text-sm font-dm">Delete <span className="text-heading font-medium">"{name}"</span>? This cannot be undone.</p>
+        <p className="text-noir-ink-2 text-sm font-sans">Delete <span className="text-noir-ink font-medium">"{name}"</span>? This cannot be undone.</p>
         <div className="flex gap-3 justify-end">
             <Btn variant="ghost" onClick={onCancel}>Cancel</Btn>
             <Btn variant="danger" onClick={onConfirm}>Delete</Btn>
@@ -71,7 +71,7 @@ const ConfirmDelete = ({ name, onConfirm, onCancel }) => (
 )
 
 const Toast = ({ msg, type }) => (
-    <div className={`fixed bottom-6 right-6 z-[200] px-5 py-3 rounded-xl font-dm text-sm shadow-xl border ${type === 'error' ? 'bg-red-500/10 border-red-500/30 text-red-300' : 'bg-ember/10 border-ember/30 text-ember'}`}>
+    <div className={`fixed bottom-6 right-6 z-[200] px-5 py-3 rounded-xl font-sans text-sm shadow-xl border ${type === 'error' ? 'bg-red-500/10 border-red-500/30 text-red-300' : 'bg-noir-ink/10 border-noir-ink/30 text-noir-ink'}`}>
         {msg}
     </div>
 )
@@ -123,14 +123,14 @@ const SkillsTab = ({ toast }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <p className="text-muted text-sm font-dm">{items.length} skills</p>
+                <p className="text-noir-ink-3 text-sm font-sans">{items.length} skills</p>
                 <Btn onClick={openAdd}>+ Add Skill</Btn>
             </div>
             <div className="flex flex-col gap-2">
                 {items.map(item => (
-                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-surface border border-brand-border rounded-xl">
+                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-noir-2 border border-noir-rule rounded-xl">
                         <div className="flex items-center gap-3">
-                            <span className={`px-2.5 py-1 rounded-full text-xs font-dm border ${item.accent ? 'bg-ember/10 text-ember border-ember/25' : 'bg-surface2 text-subtle border-brand-border'}`}>{item.name}</span>
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-sans border ${item.accent ? 'bg-noir-ink/10 text-noir-ink border-noir-ink/25' : 'bg-noir-2 text-noir-ink-2 border-noir-rule'}`}>{item.name}</span>
                         </div>
                         <div className="flex gap-2">
                             <Btn variant="ghost" onClick={() => openEdit(item)}>Edit</Btn>
@@ -147,12 +147,12 @@ const SkillsTab = ({ toast }) => {
                         <div className="flex flex-col gap-1.5">
                             <Input label="Icon slug (simpleicons.org)" value={form.icon_name} onChange={v => setForm(f => ({ ...f, icon_name: v }))} placeholder="e.g. react, typescript, nodedotjs" />
                             {form.icon_name && (
-                                <div className="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-brand-border">
+                                <div className="flex items-center gap-2 px-3 py-2 bg-noir-2 rounded-lg border border-noir-rule">
                                     <img src={`https://cdn.simpleicons.org/${form.icon_name}`} alt="" className="w-5 h-5" onError={e => { e.target.style.display = 'none' }} />
-                                    <span className="text-muted text-xs font-dm">Preview</span>
+                                    <span className="text-noir-ink-3 text-xs font-sans">Preview</span>
                                 </div>
                             )}
-                            <a href="https://simpleicons.org" target="_blank" rel="noreferrer" className="text-ember/60 text-xs font-dm hover:text-ember transition-colors">Browse icon slugs at simpleicons.org ↗</a>
+                            <a href="https://simpleicons.org" target="_blank" rel="noreferrer" className="text-noir-ink/60 text-xs font-sans hover:text-noir-ink transition-colors">Browse icon slugs at simpleicons.org ↗</a>
                         </div>
                         <Toggle label="Accent (ember highlight)" checked={form.accent} onChange={v => setForm(f => ({ ...f, accent: v }))} />
                     </div>
@@ -213,18 +213,18 @@ const EducationTab = ({ toast }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <p className="text-muted text-sm font-dm">{items.length} entries</p>
+                <p className="text-noir-ink-3 text-sm font-sans">{items.length} entries</p>
                 <Btn onClick={() => { setForm(emptyEdu); setModal('add') }}>+ Add Entry</Btn>
             </div>
             <div className="flex flex-col gap-2">
                 {items.map(item => (
-                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-surface border border-brand-border rounded-xl">
+                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-noir-2 border border-noir-rule rounded-xl">
                         <div>
-                            <p className="text-heading text-sm font-dm font-medium">{item.title}</p>
-                            <p className="text-muted text-xs font-dm">{item.subtitle} · {item.period}</p>
+                            <p className="text-noir-ink text-sm font-sans font-medium">{item.title}</p>
+                            <p className="text-noir-ink-3 text-xs font-sans">{item.subtitle} · {item.period}</p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <span className="text-xs font-syne uppercase tracking-wide text-ember">{item.type}</span>
+                            <span className="text-xs font-display uppercase tracking-wide text-noir-ink">{item.type}</span>
                             <Btn variant="ghost" onClick={() => { setForm({ title: item.title, subtitle: item.subtitle, period: item.period, type: item.type, icon_url: item.icon_url || '', verify_url: item.verify_url || '' }); setModal(item) }}>Edit</Btn>
                             <Btn variant="danger" onClick={() => setDeleting(item)}>Delete</Btn>
                         </div>
@@ -239,8 +239,8 @@ const EducationTab = ({ toast }) => {
                         <Input label="Institution" value={form.subtitle} onChange={f('subtitle')} placeholder="e.g. University Name" required />
                         <Input label="Period" value={form.period} onChange={f('period')} placeholder="e.g. 2021 – 2025" required />
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-muted text-xs font-dm uppercase tracking-wider">Type</label>
-                            <select value={form.type} onChange={e => f('type')(e.target.value)} className="px-3 py-2.5 bg-surface border border-brand-border rounded-lg text-heading text-sm font-dm focus:outline-none focus:border-ember transition-colors">
+                            <label className="text-noir-ink-3 text-xs font-sans uppercase tracking-wider">Type</label>
+                            <select value={form.type} onChange={e => f('type')(e.target.value)} className="px-3 py-2.5 bg-noir-2 border border-noir-rule rounded-lg text-noir-ink text-sm font-sans focus:outline-none focus:border-noir-ink transition-colors">
                                 <option value="education">Education</option>
                                 <option value="certification">Certification</option>
                             </select>
@@ -248,9 +248,9 @@ const EducationTab = ({ toast }) => {
                         <div className="flex flex-col gap-1.5">
                             <Input label="Icon URL (optional)" value={form.icon_url} onChange={f('icon_url')} placeholder="e.g. https://cdn.simpleicons.org/amazonaws/FF9900" />
                             {form.icon_url && (
-                                <div className="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-brand-border">
+                                <div className="flex items-center gap-2 px-3 py-2 bg-noir-2 rounded-lg border border-noir-rule">
                                     <img src={form.icon_url} alt="" className="w-5 h-5 object-contain" onError={e => { e.target.style.display = 'none' }} />
-                                    <span className="text-muted text-xs font-dm">Preview</span>
+                                    <span className="text-noir-ink-3 text-xs font-sans">Preview</span>
                                 </div>
                             )}
                         </div>
@@ -324,15 +324,15 @@ const ExperienceTab = ({ toast }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <p className="text-muted text-sm font-dm">{items.length} positions</p>
+                <p className="text-noir-ink-3 text-sm font-sans">{items.length} positions</p>
                 <Btn onClick={() => { setForm(emptyExp); setModal('add') }}>+ Add Experience</Btn>
             </div>
             <div className="flex flex-col gap-2">
                 {items.map(item => (
-                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-surface border border-brand-border rounded-xl">
+                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-noir-2 border border-noir-rule rounded-xl">
                         <div>
-                            <p className="text-heading text-sm font-dm font-medium">{item.role}</p>
-                            <p className="text-muted text-xs font-dm">{item.company} · {item.period}</p>
+                            <p className="text-noir-ink text-sm font-sans font-medium">{item.role}</p>
+                            <p className="text-noir-ink-3 text-xs font-sans">{item.company} · {item.period}</p>
                         </div>
                         <div className="flex gap-2">
                             <Btn variant="ghost" onClick={() => openEdit(item)}>Edit</Btn>
@@ -356,27 +356,27 @@ const ExperienceTab = ({ toast }) => {
                         <div className="flex flex-col gap-1.5">
                             <Input label="Company Logo URL (optional)" value={form.logo_url} onChange={f('logo_url')} placeholder="e.g. https://cdn.simpleicons.org/sap/0FAAFF" />
                             {form.logo_url && (
-                                <div className="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-brand-border">
+                                <div className="flex items-center gap-2 px-3 py-2 bg-noir-2 rounded-lg border border-noir-rule">
                                     <img src={form.logo_url} alt="" className="w-6 h-6 object-contain" onError={e => { e.target.style.display = 'none' }} />
-                                    <span className="text-muted text-xs font-dm">Preview · Also works with clearbit: https://logo.clearbit.com/company.com</span>
+                                    <span className="text-noir-ink-3 text-xs font-sans">Preview · Also works with clearbit: https://logo.clearbit.com/company.com</span>
                                 </div>
                             )}
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-muted text-xs font-dm uppercase tracking-wider">Bullet Points</label>
+                            <label className="text-noir-ink-3 text-xs font-sans uppercase tracking-wider">Bullet Points</label>
                             {form.bullets.map((b, i) => (
                                 <div key={i} className="flex gap-2">
                                     <input
                                         value={b} onChange={e => setBullet(i, e.target.value)}
                                         placeholder={`Bullet ${i + 1}`}
-                                        className="flex-1 px-3 py-2 bg-surface border border-brand-border rounded-lg text-heading text-sm font-dm placeholder-muted focus:outline-none focus:border-ember transition-colors"
+                                        className="flex-1 px-3 py-2 bg-noir-2 border border-noir-rule rounded-lg text-noir-ink text-sm font-sans placeholder-noir-ink-3 focus:outline-none focus:border-noir-ink transition-colors"
                                     />
                                     {form.bullets.length > 1 && (
-                                        <button onClick={() => removeBullet(i)} className="text-muted hover:text-red-400 transition-colors px-2">×</button>
+                                        <button onClick={() => removeBullet(i)} className="text-noir-ink-3 hover:text-red-400 transition-colors px-2">×</button>
                                     )}
                                 </div>
                             ))}
-                            <button onClick={addBullet} className="text-ember text-sm font-dm hover:text-ember-dim transition-colors text-left">+ Add bullet</button>
+                            <button onClick={addBullet} className="text-noir-ink text-sm font-sans hover:text-noir-ink-2 transition-colors text-left">+ Add bullet</button>
                         </div>
                     </div>
                     <div className="flex gap-3 justify-end">
@@ -440,15 +440,15 @@ const ProjectsTab = ({ toast }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <p className="text-muted text-sm font-dm">{items.length} projects</p>
+                <p className="text-noir-ink-3 text-sm font-sans">{items.length} projects</p>
                 <Btn onClick={() => { setForm(emptyProject); setModal('add') }}>+ Add Project</Btn>
             </div>
             <div className="flex flex-col gap-2">
                 {items.map(item => (
-                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-surface border border-brand-border rounded-xl">
+                    <div key={item.id} className="flex items-center justify-between px-4 py-3 bg-noir-2 border border-noir-rule rounded-xl">
                         <div>
-                            <p className="text-heading text-sm font-dm font-medium">{item.name}</p>
-                            <p className="text-muted text-xs font-dm">{item.tags.join(', ')}</p>
+                            <p className="text-noir-ink text-sm font-sans font-medium">{item.name}</p>
+                            <p className="text-noir-ink-3 text-xs font-sans">{item.tags.join(', ')}</p>
                         </div>
                         <div className="flex gap-2">
                             <Btn variant="ghost" onClick={() => { setForm(fromItem(item)); setModal(item) }}>Edit</Btn>
@@ -531,19 +531,19 @@ const MessagesTab = ({ toast, onRead }) => {
             {/* Toolbar */}
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-3">
-                    <p className="text-muted text-sm font-dm">{items.length} message{items.length !== 1 ? 's' : ''}</p>
+                    <p className="text-noir-ink-3 text-sm font-sans">{items.length} message{items.length !== 1 ? 's' : ''}</p>
                     {unreadCount > 0 && (
-                        <span className="px-2 py-0.5 rounded-full bg-ember/15 text-ember text-xs font-syne font-semibold">
+                        <span className="px-2 py-0.5 rounded-full bg-noir-ink/15 text-noir-ink text-xs font-display font-semibold">
                             {unreadCount} unread
                         </span>
                     )}
                 </div>
-                <div className="flex gap-1 p-1 bg-surface border border-brand-border rounded-lg">
+                <div className="flex gap-1 p-1 bg-noir-2 border border-noir-rule rounded-lg">
                     {['all', 'unread'].map(f => (
                         <button
                             key={f}
                             onClick={() => setFilter(f)}
-                            className={`px-3 py-1 rounded-md text-xs font-syne font-medium transition-colors capitalize ${filter === f ? 'bg-ember text-obsidian' : 'text-subtle hover:text-heading'}`}
+                            className={`px-3 py-1 rounded-md text-xs font-display font-medium transition-colors capitalize ${filter === f ? 'bg-noir-ink text-noir' : 'text-noir-ink-2 hover:text-noir-ink'}`}
                         >
                             {f}
                         </button>
@@ -553,12 +553,12 @@ const MessagesTab = ({ toast, onRead }) => {
 
             {visible.length === 0 ? (
                 <div className="py-16 flex flex-col items-center gap-3 text-center">
-                    <div className="w-12 h-12 rounded-full bg-surface2 border border-brand-border flex items-center justify-center">
-                        <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 rounded-full bg-noir-2 border border-noir-rule flex items-center justify-center">
+                        <svg className="w-5 h-5 text-noir-ink-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <p className="text-muted text-sm font-dm">{filter === 'unread' ? 'No unread messages' : 'No messages yet'}</p>
+                    <p className="text-noir-ink-3 text-sm font-sans">{filter === 'unread' ? 'No unread messages' : 'No messages yet'}</p>
                 </div>
             ) : (
                 <div className="flex flex-col lg:flex-row gap-4">
@@ -570,72 +570,72 @@ const MessagesTab = ({ toast, onRead }) => {
                                 onClick={() => open(item)}
                                 className={`text-left px-4 py-3 rounded-xl border transition-colors ${
                                     selected?.id === item.id
-                                        ? 'bg-ember/10 border-ember/30'
-                                        : 'bg-surface border-brand-border hover:border-subtle'
+                                        ? 'bg-noir-ink/10 border-noir-ink/30'
+                                        : 'bg-noir-2 border-noir-rule hover:border-noir-ink-2'
                                 }`}
                             >
                                 <div className="flex items-start justify-between gap-2 mb-1">
-                                    <span className={`text-sm font-dm truncate ${item.read ? 'text-subtle' : 'text-heading font-medium'}`}>
+                                    <span className={`text-sm font-sans truncate ${item.read ? 'text-noir-ink-2' : 'text-noir-ink font-medium'}`}>
                                         {item.name}
                                     </span>
-                                    {!item.read && <span className="w-2 h-2 rounded-full bg-ember shrink-0 mt-1.5" />}
+                                    {!item.read && <span className="w-2 h-2 rounded-full bg-noir-ink shrink-0 mt-1.5" />}
                                 </div>
-                                <p className="text-muted text-xs font-dm truncate">{item.subject || item.message}</p>
-                                <p className="text-muted/60 text-[11px] font-dm mt-1">{fmt(item.created_at)}</p>
+                                <p className="text-noir-ink-3 text-xs font-sans truncate">{item.subject || item.message}</p>
+                                <p className="text-noir-ink-3/60 text-[11px] font-sans mt-1">{fmt(item.created_at)}</p>
                             </button>
                         ))}
                     </div>
 
                     {/* Detail pane */}
                     {selected ? (
-                        <div className="flex-1 bg-surface border border-brand-border rounded-xl p-5 flex flex-col gap-4 min-w-0">
+                        <div className="flex-1 bg-noir-2 border border-noir-rule rounded-xl p-5 flex flex-col gap-4 min-w-0">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
-                                    <h3 className="font-syne text-lg font-semibold text-heading">{selected.subject || '(No subject)'}</h3>
-                                    <p className="text-muted text-xs font-dm mt-1">{fmt(selected.created_at)}</p>
+                                    <h3 className="font-display text-lg font-semibold text-noir-ink">{selected.subject || '(No subject)'}</h3>
+                                    <p className="text-noir-ink-3 text-xs font-sans mt-1">{fmt(selected.created_at)}</p>
                                 </div>
                                 <Btn variant="danger" onClick={() => setDeleting(selected)}>Delete</Btn>
                             </div>
 
                             {/* Sender info */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-surface2 rounded-xl border border-brand-border text-sm font-dm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-noir-2 rounded-xl border border-noir-rule text-sm font-sans">
                                 <div>
-                                    <span className="text-muted text-xs uppercase tracking-wider">From</span>
-                                    <p className="text-heading mt-0.5">{selected.name}</p>
+                                    <span className="text-noir-ink-3 text-xs uppercase tracking-wider">From</span>
+                                    <p className="text-noir-ink mt-0.5">{selected.name}</p>
                                 </div>
                                 <div>
-                                    <span className="text-muted text-xs uppercase tracking-wider">Email</span>
-                                    <a href={`mailto:${selected.email}`} className="text-ember block mt-0.5 hover:text-ember-dim transition-colors truncate">{selected.email}</a>
+                                    <span className="text-noir-ink-3 text-xs uppercase tracking-wider">Email</span>
+                                    <a href={`mailto:${selected.email}`} className="text-noir-ink block mt-0.5 hover:text-noir-ink-2 transition-colors truncate">{selected.email}</a>
                                 </div>
                                 {selected.company && (
                                     <div>
-                                        <span className="text-muted text-xs uppercase tracking-wider">Company</span>
-                                        <p className="text-heading mt-0.5">{selected.company}</p>
+                                        <span className="text-noir-ink-3 text-xs uppercase tracking-wider">Company</span>
+                                        <p className="text-noir-ink mt-0.5">{selected.company}</p>
                                     </div>
                                 )}
                                 {selected.budget && (
                                     <div>
-                                        <span className="text-muted text-xs uppercase tracking-wider">Budget</span>
-                                        <p className="text-heading mt-0.5">{selected.budget}</p>
+                                        <span className="text-noir-ink-3 text-xs uppercase tracking-wider">Budget</span>
+                                        <p className="text-noir-ink mt-0.5">{selected.budget}</p>
                                     </div>
                                 )}
                             </div>
 
                             {/* Message body */}
                             <div className="flex-1">
-                                <span className="text-muted text-xs uppercase tracking-wider font-dm">Message</span>
-                                <p className="text-body text-sm font-dm mt-2 leading-relaxed whitespace-pre-wrap">{selected.message}</p>
+                                <span className="text-noir-ink-3 text-xs uppercase tracking-wider font-sans">Message</span>
+                                <p className="text-noir-ink-2 text-sm font-sans mt-2 leading-relaxed whitespace-pre-wrap">{selected.message}</p>
                             </div>
 
                             <a
                                 href={`mailto:${selected.email}?subject=Re: ${encodeURIComponent(selected.subject || 'Your message')}`}
-                                className="self-start px-5 py-2.5 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
+                                className="self-start px-5 py-2.5 bg-noir-ink text-noir font-display font-semibold rounded-full hover:bg-noir-ink-2 transition-colors text-sm"
                             >
                                 Reply via email →
                             </a>
                         </div>
                     ) : (
-                        <div className="flex-1 bg-surface border border-brand-border rounded-xl flex items-center justify-center py-16 text-muted text-sm font-dm">
+                        <div className="flex-1 bg-noir-2 border border-noir-rule rounded-xl flex items-center justify-center py-16 text-noir-ink-3 text-sm font-sans">
                             Select a message to read
                         </div>
                     )}
@@ -664,18 +664,18 @@ const Login = ({ onLogin }) => {
     }
 
     return (
-        <div className="min-h-screen bg-obsidian flex items-center justify-center px-4">
+        <div className="min-h-screen bg-noir flex items-center justify-center px-4">
             <div className="w-full max-w-sm">
                 <div className="mb-8">
-                    <div className="w-2 h-2 rounded-full bg-ember mb-4" />
-                    <h1 className="font-syne text-2xl font-bold text-heading">Admin Panel</h1>
-                    <p className="text-muted text-sm font-dm mt-1">Sign in to manage your portfolio</p>
+                    <div className="w-2 h-2 rounded-full bg-noir-ink mb-4" />
+                    <h1 className="font-display text-2xl font-bold text-noir-ink">Admin Panel</h1>
+                    <p className="text-noir-ink-3 text-sm font-sans mt-1">Sign in to manage your portfolio</p>
                 </div>
                 <form onSubmit={submit} className="flex flex-col gap-4">
                     <Input label="Email" type="email" value={email} onChange={setEmail} placeholder="you@example.com" required />
                     <Input label="Password" type="password" value={password} onChange={setPassword} placeholder="••••••••" required />
-                    {error && <p className="text-red-400 text-sm font-dm">{error}</p>}
-                    <button type="submit" disabled={loading} className="mt-2 w-full py-3 bg-ember text-obsidian font-syne font-semibold rounded-xl hover:bg-ember-dim transition-colors disabled:opacity-50">
+                    {error && <p className="text-red-400 text-sm font-sans">{error}</p>}
+                    <button type="submit" disabled={loading} className="mt-2 w-full py-3 bg-noir-ink text-noir font-display font-semibold rounded-xl hover:bg-noir-ink-2 transition-colors disabled:opacity-50">
                         {loading ? 'Signing in…' : 'Sign in'}
                     </button>
                 </form>
@@ -718,40 +718,40 @@ const Admin = () => {
     }
 
     if (session === undefined) return (
-        <div className="min-h-screen bg-obsidian flex items-center justify-center">
-            <div className="w-6 h-6 border-2 border-ember border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-screen bg-noir flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-noir-ink border-t-transparent rounded-full animate-spin" />
         </div>
     )
 
     if (!session) return <Login onLogin={() => {}} />
 
     return (
-        <div className="min-h-screen bg-obsidian text-heading font-dm">
+        <div className="min-h-screen bg-noir text-noir-ink font-sans">
             {/* Header */}
-            <div className="border-b border-brand-border px-6 md:px-10 py-4 flex items-center justify-between">
+            <div className="border-b border-noir-rule px-6 md:px-10 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-ember" />
-                    <span className="font-syne font-semibold text-heading">Portfolio Admin</span>
+                    <div className="w-2 h-2 rounded-full bg-noir-ink" />
+                    <span className="font-display font-semibold text-noir-ink">Portfolio Admin</span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <span className="text-muted text-xs font-dm hidden sm:block">{session.user.email}</span>
+                    <span className="text-noir-ink-3 text-xs font-sans hidden sm:block">{session.user.email}</span>
                     <Btn variant="ghost" onClick={signOut}>Sign out</Btn>
-                    <a href="/" className="text-muted text-xs font-dm hover:text-heading transition-colors">← View site</a>
+                    <a href="/" className="text-noir-ink-3 text-xs font-sans hover:text-noir-ink transition-colors">← View site</a>
                 </div>
             </div>
 
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
                 {/* Tabs */}
-                <div className="flex flex-wrap gap-1 p-1 bg-surface border border-brand-border rounded-xl mb-8 w-fit">
+                <div className="flex flex-wrap gap-1 p-1 bg-noir-2 border border-noir-rule rounded-xl mb-8 w-fit">
                     {TABS.map(t => (
                         <button
                             key={t}
                             onClick={() => setTab(t)}
-                            className={`relative px-4 py-2 rounded-lg text-sm font-syne font-medium transition-colors ${tab === t ? 'bg-ember text-obsidian' : 'text-subtle hover:text-heading'}`}
+                            className={`relative px-4 py-2 rounded-lg text-sm font-display font-medium transition-colors ${tab === t ? 'bg-noir-ink text-noir' : 'text-noir-ink-2 hover:text-noir-ink'}`}
                         >
                             {t}
                             {t === 'Messages' && unreadCount > 0 && (
-                                <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center ${tab === t ? 'bg-obsidian text-ember' : 'bg-ember text-obsidian'}`}>
+                                <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center ${tab === t ? 'bg-noir text-noir-ink' : 'bg-noir-ink text-noir'}`}>
                                     {unreadCount > 9 ? '9+' : unreadCount}
                                 </span>
                             )}
@@ -760,8 +760,8 @@ const Admin = () => {
                 </div>
 
                 {/* Tab content */}
-                <div className="bg-void border border-brand-border rounded-2xl p-6">
-                    <h2 className="font-syne text-xl font-bold text-heading mb-6">{tab}</h2>
+                <div className="bg-noir border border-noir-rule rounded-2xl p-6">
+                    <h2 className="font-display text-xl font-bold text-noir-ink mb-6">{tab}</h2>
                     {tab === 'Skills'     && <SkillsTab     toast={showToast} />}
                     {tab === 'Education'  && <EducationTab  toast={showToast} />}
                     {tab === 'Experience' && <ExperienceTab toast={showToast} />}

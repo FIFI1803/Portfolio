@@ -2,28 +2,30 @@ import { useEffect, useRef, useState } from 'react'
 
 const FALLBACK_MS = 2500
 
+/** True when this browser can't (or shouldn't) animate a reveal. */
+const revealDisabled = () =>
+  typeof IntersectionObserver === 'undefined' ||
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
+
 /**
  * Reveals children once they enter the viewport.
  *
  * Three layered guarantees, so no single failure can blank the page (spec 3.5):
  *   1. The hidden state is applied here in JS — CSS never hides on its own.
- *   2. No IntersectionObserver, or reduced motion, means visible immediately.
+ *   2. No IntersectionObserver, or reduced motion, starts visible.
  *   3. A 2.5s timer reveals regardless, cleared when the observer fires.
  *
  * This is the only component permitted to hide content.
  */
-const Reveal = ({ children, as: Tag = 'div', delay = 0, className = '' }) => {
+const Reveal = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null)
-  const [shown, setShown] = useState(false)
+  // Computed lazily rather than set in the effect, so the unsupported and
+  // reduced-motion paths never render a hidden frame at all.
+  const [shown, setShown] = useState(revealDisabled)
 
   useEffect(() => {
     const node = ref.current
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-
-    if (!node || typeof IntersectionObserver === 'undefined' || reduced) {
-      setShown(true)
-      return
-    }
+    if (!node || revealDisabled()) return
 
     const timer = setTimeout(() => setShown(true), FALLBACK_MS)
 
@@ -42,14 +44,14 @@ const Reveal = ({ children, as: Tag = 'div', delay = 0, className = '' }) => {
   }, [])
 
   return (
-    <Tag
+    <div
       ref={ref}
       data-reveal={shown ? 'in' : 'out'}
       style={delay && !shown ? { transitionDelay: `${delay}ms` } : undefined}
       className={className}
     >
       {children}
-    </Tag>
+    </div>
   )
 }
 

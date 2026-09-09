@@ -1,29 +1,25 @@
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navigation from './Navigation'
-import Hero from './Hero'
-import About from './About'
-import Skills from './Skills'
-import Experience from './Experience'
-import Projects from './Projects'
-import Contact from './Contact'
+import Hero from './sections/Hero'
+import Work from './sections/Work'
+import Sap from './sections/Sap'
+import About from './sections/About'
+import Stack from './sections/Stack'
+import Contact from './sections/Contact'
+import Footer from './components/Footer'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const App = () => {
-    return (
-        <div className="site-shell flex flex-col bg-obsidian overflow-x-clip">
-            <Navigation />
-            <main>
-                <Hero />
-                <About />
-                <Skills />
-                <Experience />
-                <Projects />
-                <Contact />
-            </main>
-        </div>
-    )
-}
+const App = () => (
+  <div className="min-h-screen bg-paper">
+    <Navigation />
+    <main>
+      <Hero />
+      <Work />
+      <Sap />
+      <About />
+      <Stack />
+      <Contact />
+    </main>
+    <Footer />
+  </div>
+)
 
 export default App
