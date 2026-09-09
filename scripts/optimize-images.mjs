@@ -2,8 +2,8 @@ import sharp from 'sharp'
 import { mkdir } from 'node:fs/promises'
 
 const WIDTHS = [640, 1280, 1920]
+// Hero is typographic — no portrait. Only the About portrait is processed.
 const SOURCES = [
-  { src: 'public/HeroImage.png', name: 'portrait-hero' },
   { src: 'public/JPEG image.png', name: 'portrait-about' },
 ]
 
