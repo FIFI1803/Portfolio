@@ -1,84 +1,97 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-ember:        #8BA8FF;
-  --color-ember-dim:    #6F8DE6;
-  --color-obsidian:     #0A0C10;
-  --color-void:         #0E1117;
-  --color-surface:      #12161D;
-  --color-surface2:     #181D26;
-  --color-brand-border: #29303B;
-  --color-muted:        #68717F;
-  --color-subtle:       #929CAA;
-  --color-body:         #BCC4CE;
-  --color-heading:      #F2F4F7;
-  --color-ice:          #AFC1FF;
-  --color-sage:         #8BA8FF;
-  --color-gold:         #B5C5F5;
+  --color-paper:      #F8F7F4;
+  --color-paper-2:    #F1EFEA;
+  --color-ink:        #12120F;
+  --color-ink-2:      #4A4945;
+  --color-ink-3:      #6E6C65;
+  --color-rule:       #DEDBD3;
 
-  --font-syne: 'Archivo', sans-serif;
-  --font-dm:   'Archivo', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  --color-noir:       #0C0C0A;
+  --color-noir-2:     #171714;
+  --color-noir-ink:   #F5F4F0;
+  --color-noir-ink-2: #A5A39B;
+  --color-noir-ink-3: #7C7A73;
+  --color-noir-rule:  #2A2A26;
+
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-sans:    'Inter Tight', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font-family: 'Archivo', sans-serif;
-  background-color: #0A0C10;
-  color: #BCC4CE;
+  background-color: #F8F7F4;
+  color: #4A4945;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-::selection {
-  background: #8BA8FF;
-  color: #0A0C10;
+::selection { background: #12120F; color: #F8F7F4; }
+
+/* Caps the measure at roughly 68 characters. */
+.measure { max-width: 34em; }
+
+/* Display type is optically large; tighten tracking and pull the leading in. */
+.display {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  color: #12120F;
 }
 
-.site-shell {
-  position: relative;
-  isolation: isolate;
+/* Metadata: mono, small, never shouty. Deliberately not an eyebrow label. */
+.meta {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  color: #6E6C65;
 }
 
-.site-shell::before {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  content: '';
-  background-image:
-    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 70%);
+/*
+  Reveal contract. The hidden state is applied ONLY when JavaScript sets
+  data-reveal="out" — CSS never hides content on its own. See spec 3.5.
+*/
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.24, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.24, 1);
 }
+[data-reveal="out"] { opacity: 0; transform: translateY(20px); }
+[data-reveal="in"]  { opacity: 1; transform: none; }
 
-section {
-  border-top: 1px solid rgba(41, 48, 59, 0.75);
-}
+input, textarea, select, button { font: inherit; }
 
-input,
-textarea,
-select,
-button {
-  font: inherit;
+:focus-visible {
+  outline: 2px solid #12120F;
+  outline-offset: 2px;
+  border-radius: 1px;
 }
+.on-noir :focus-visible { outline-color: #F8F7F4; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  [data-reveal],
+  [data-reveal="out"],
+  [data-reveal="in"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
   *, *::before, *::after {
-    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
