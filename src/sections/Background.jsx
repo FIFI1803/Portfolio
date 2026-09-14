@@ -7,6 +7,13 @@ import {
   skills as localSkills,
 } from '../content'
 
+/* Verify links are pasted by hand; tolerate a missing scheme. */
+const externalUrl = (url) => {
+  const u = String(url || '').trim()
+  if (!u) return null
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`
+}
+
 /* Rows from Supabase carry a `group`; anything without one lands in Other. */
 const groupSkills = (rows) => {
   const out = new Map()
@@ -64,39 +71,68 @@ const Background = () => {
         ))}
       </div>
 
-      {/* Education + certifications */}
+      {/* Education */}
       <div className="mt-20 grid grid-cols-12 gap-x-5 gap-y-14 border-t border-rule pt-10 md:mt-28">
-        <Reveal className="col-span-12 md:col-span-5 md:col-start-3 lg:col-span-4 lg:col-start-3">
+        <Reveal className="col-span-12 md:col-span-2">
           <h3 className="meta text-ink">Education</h3>
-          <ul className="mt-6">
-            {study.map((item) => (
-              <li key={item.id ?? item.title} className="border-b border-rule py-4">
-                <p className="text-[16px] font-medium leading-snug tracking-[-0.01em] text-ink">{item.title}</p>
-                <p className="meta mt-2 text-ink-2">{item.subtitle} · {item.period}</p>
-              </li>
-            ))}
-          </ul>
         </Reveal>
-
-        <Reveal delay={80} className="col-span-12 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8">
-          <h3 className="meta text-ink">Certifications</h3>
-          <ul className="mt-6">
-            {certs.map((item) => (
-              <li key={item.id ?? item.title} className="border-b border-rule py-4">
-                <p className="text-[16px] font-medium leading-snug tracking-[-0.01em] text-ink">
-                  {item.verify_url ? (
-                    <a href={item.verify_url} target="_blank" rel="noreferrer"
-                       className="link decoration-rule hover:decoration-ink">
-                      {item.title}
-                    </a>
-                  ) : item.title}
+        <Reveal delay={60} className="col-span-12 md:col-span-9 md:col-start-3">
+          <ul className="border-t border-rule">
+            {study.map((item) => (
+              <li key={item.id ?? item.title} className="grid grid-cols-12 gap-x-5 gap-y-2 border-b border-rule py-5">
+                <p className="col-span-12 text-[clamp(1.0625rem,1.4vw,1.25rem)] font-medium leading-snug tracking-[-0.015em] text-ink md:col-span-7">
+                  {item.title}
                 </p>
-                <p className="meta mt-2 text-ink-2">{item.subtitle} · {item.period}</p>
+                <p className="meta col-span-12 text-ink-2 md:col-span-5 md:text-right">{item.subtitle} · {item.period}</p>
               </li>
             ))}
           </ul>
         </Reveal>
       </div>
+
+      {/* Certifications — badge tiles */}
+      {certs.length > 0 && (
+        <div className="mt-20 grid grid-cols-12 gap-x-5 gap-y-8 border-t border-rule pt-10 md:mt-28">
+          <Reveal className="col-span-12 md:col-span-2">
+            <h3 className="meta text-ink">Certifications</h3>
+          </Reveal>
+          <ul className="col-span-12 grid grid-cols-2 gap-5 md:col-span-10 md:col-start-3 lg:col-span-9 lg:grid-cols-3">
+            {certs.map((item, i) => {
+              const href = externalUrl(item.verify_url)
+              const Tile = href ? 'a' : 'div'
+              const tileProps = href ? { href, target: '_blank', rel: 'noreferrer' } : {}
+              return (
+                <Reveal key={item.id ?? item.title} delay={i * 70}>
+                  <li className="h-full">
+                    <Tile {...tileProps} className="group flex h-full flex-col border border-rule p-5 transition-colors hover:border-ink md:p-6">
+                      <div className="flex aspect-square w-full items-center justify-center bg-paper-2 p-6">
+                        {item.icon_url ? (
+                          <img
+                            src={item.icon_url}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            className="max-h-full max-w-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.22,0.61,0.24,1)] group-hover:scale-[1.04]"
+                          />
+                        ) : (
+                          <span className="display text-[3rem] text-ink" aria-hidden="true">{item.title.charAt(0)}</span>
+                        )}
+                      </div>
+                      <p className="mt-5 text-[15px] font-medium leading-snug tracking-[-0.01em] text-ink">{item.title}</p>
+                      <p className="meta mt-2 text-ink-2">{item.subtitle} · {item.period}</p>
+                      {href && (
+                        <p className="meta mt-auto pt-5 text-ink-2">
+                          Verify <span className="arrow inline-block" aria-hidden="true">↗</span>
+                        </p>
+                      )}
+                    </Tile>
+                  </li>
+                </Reveal>
+              )
+            })}
+          </ul>
+        </div>
+      )}
 
       {/* Skills */}
       <div className="mt-20 border-t border-rule pt-10 md:mt-28">

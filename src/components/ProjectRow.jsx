@@ -21,7 +21,7 @@ const ProjectRow = ({ project, index, total }) => {
       >
         <div className="meta tabular col-span-12 flex justify-between text-ink-2 md:col-span-2 md:row-start-1 md:block">
           <p>{pad(index + 1)} / {pad(total)}</p>
-          <p className="md:mt-1">{project.year}</p>
+          {project.year && <p className="md:mt-1">{project.year}</p>}
         </div>
 
         <div className="col-span-12 transition-transform duration-500 ease-[cubic-bezier(0.22,0.61,0.24,1)] group-hover:translate-x-2 md:col-span-6 md:col-start-3 md:row-span-2 md:row-start-1 lg:col-span-6 lg:col-start-3">
@@ -29,7 +29,7 @@ const ProjectRow = ({ project, index, total }) => {
             <span>{project.name}</span>
             <span className="arrow mt-[0.18em] text-[0.42em] font-medium text-ink-2" aria-hidden="true">↗</span>
           </h3>
-          <p className="mt-3 text-[15px] text-ink-2">{project.kind}</p>
+          {project.kind && <p className="mt-3 text-[15px] text-ink-2">{project.kind}</p>}
           <p className="measure mt-6 text-[16px] leading-[1.55] text-ink md:mt-8">
             {project.description}
           </p>

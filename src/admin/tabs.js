@@ -45,6 +45,8 @@ export const education = {
     { key: 'title', label: 'Title', type: 'text', required: true },
     { key: 'subtitle', label: 'Institution / issuer', type: 'text', required: true },
     { key: 'period', label: 'Period', type: 'text', placeholder: 'Oct 2024 — Oct 2026', required: true },
+    { key: 'icon_url', label: 'Badge image URL', type: 'text', placeholder: 'https://…/badge.svg', nullable: true,
+      hint: 'Certifications show this as a badge tile. Credly and Microsoft Learn badge URLs work.' },
     { key: 'verify_url', label: 'Verify URL', type: 'text', placeholder: 'https://…', nullable: true },
   ],
 }
