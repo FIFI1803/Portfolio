@@ -1,104 +1,76 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSite } from './lib/useContent'
+import { site as localSite } from './content'
 
 const links = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
+  { label: 'Work', href: '#work' },
+  { label: 'About', href: '#about' },
+  { label: 'Now', href: '#now' },
+  { label: 'Notes', href: '#notes' },
 ]
 
 const Navigation = () => {
-    const [open, setOpen] = useState(false)
-    const [active, setActive] = useState('#home')
+  const [open, setOpen] = useState(false)
+  const toggleRef = useRef(null)
+  const site = useSite(localSite)
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY
-            const detectionPoint = scrollY + window.innerHeight * 0.4
-
-            let current = links[0].href
-            for (const { href } of links) {
-                const el = document.getElementById(href.slice(1))
-                if (el && el.offsetTop <= detectionPoint) {
-                    current = href
-                }
-            }
-            setActive(current)
-        }
-
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const handleLinkClick = (href) => {
-        setActive(href)
-        setOpen(false)
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
     }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
-    return (
-        <nav className="sticky top-0 z-50 py-4 md:py-6 px-6 md:px-8">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-                {/* Desktop pill nav */}
-                <div className="hidden md:flex px-2 py-2 backdrop-blur-md bg-white/5 border border-brand-border rounded-full items-center gap-2">
-                    {links.map((link) => (
-                        <a
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => handleLinkClick(link.href)}
-                            className={`px-5 py-2 rounded-full transition-colors text-sm font-syne font-medium ${
-                                active === link.href
-                                    ? 'bg-white text-obsidian font-semibold'
-                                    : 'text-subtle hover:text-heading'
-                            }`}
-                        >
-                            {link.label}
-                        </a>
-                    ))}
-                </div>
+  return (
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper px-gutter">
+      <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1600px] items-center justify-between">
+        <a href="#top" className="display text-[17px] tracking-[-0.02em] text-ink">
+          FG<span className="text-accent">.</span>
+        </a>
 
-                {/* Mobile: logo/name */}
-                <span className="md:hidden text-heading font-syne font-semibold text-sm">Filip Galach</span>
+        <ul className="meta hidden items-center gap-8 md:flex">
+          {links.map((l) => (
+            <li key={l.href}>
+              <a href={l.href} className="link decoration-transparent text-ink hover:decoration-ink">
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-                <div className="flex items-center gap-3">
-                    <a
-                        href="/Filip Galach Resume.pdf"
-                        download="Filip Galach CV.pdf"
-                        className="px-5 py-2.5 md:px-6 md:py-3 bg-ember text-obsidian font-syne font-semibold rounded-full hover:bg-ember-dim transition-colors text-sm"
-                    >
-                        Download CV
-                    </a>
+        <p className="meta hidden text-ink-2 md:block">{site.location_short}</p>
 
-                    {/* Hamburger */}
-                    <button
-                        className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5"
-                        onClick={() => setOpen(!open)}
-                        aria-label="Toggle menu"
-                    >
-                        <span className={`block w-5 h-0.5 bg-heading transition-all ${open ? 'rotate-45 translate-y-2' : ''}`} />
-                        <span className={`block w-5 h-0.5 bg-heading transition-all ${open ? 'opacity-0' : ''}`} />
-                        <span className={`block w-5 h-0.5 bg-heading transition-all ${open ? '-rotate-45 -translate-y-2' : ''}`} />
-                    </button>
-                </div>
-            </div>
+        <button
+          ref={toggleRef}
+          type="button"
+          className="meta -mr-2 px-2 py-3 text-ink md:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={() => setOpen(v => !v)}
+        >
+          {open ? 'Close' : 'Menu'}
+        </button>
+      </nav>
 
-            {/* Mobile dropdown */}
-            <div className={`md:hidden absolute top-full left-4 right-4 mt-2 rounded-2xl backdrop-blur-md bg-white/5 border border-brand-border flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${open ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
-                {links.map((link) => (
-                    <a
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => handleLinkClick(link.href)}
-                        className={`px-6 py-3.5 text-sm font-syne transition-colors ${active === link.href ? 'text-heading font-semibold' : 'text-subtle hover:text-heading'}`}
-                    >
-                        {link.label}
-                    </a>
-                ))}
-            </div>
-        </nav>
-    )
+      <div id="mobile-menu" hidden={!open} className="-mx-gutter border-t border-rule bg-paper md:hidden">
+        <ul>
+          {links.map((l) => (
+            <li key={l.href} className="border-b border-rule">
+              <a href={l.href} onClick={() => setOpen(false)}
+                 className="display block px-gutter py-5 text-[2.25rem] text-ink">
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="meta px-gutter py-5 text-ink-2">{site.location_short}</p>
+      </div>
+    </header>
+  )
 }
 
 export default Navigation

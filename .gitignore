@@ -27,3 +27,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+e2e/shots/
