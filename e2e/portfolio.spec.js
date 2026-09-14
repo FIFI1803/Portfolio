@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const SECTIONS = ['work', 'experience', 'about', 'stack', 'contact']
+const SECTIONS = ['work', 'about', 'background', 'now', 'notes', 'contact']
 
 test('renders every section with content when Supabase is unreachable', async ({ page }) => {
   // The exact condition that produced the empty labelled voids (finding F2).
@@ -17,9 +17,11 @@ test('renders every section with content when Supabase is unreachable', async ({
 
   // Spot-check that the right copy landed in the right section, not just that
   // the sections are non-empty.
-  expect(await page.locator('#experience').innerText()).toContain('Variable Management')
-  expect(await page.locator('#work').innerText()).toContain('FOREVER')
-  expect(await page.locator('#about').innerText()).toContain('Publisher 360')
+  expect(await page.locator('#work').innerText()).toContain('Forecasting')
+  expect(await page.locator('#work').innerText()).toContain('79-case UAT plan')
+  expect(await page.locator('#about').innerText()).toContain('apprenticeship')
+  expect(await page.locator('#background').innerText()).toContain('Variable Management')
+  expect(await page.locator('#now').innerText()).toContain('Blender')
 })
 
 test('reveals all content even if IntersectionObserver never fires', async ({ page }) => {

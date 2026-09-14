@@ -1,91 +1,120 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-paper:      #F8F7F4;
-  --color-paper-2:    #F1EFEA;
-  --color-ink:        #12120F;
-  --color-ink-2:      #4A4945;
-  --color-ink-3:      #6E6C65;
-  --color-rule:       #DEDBD3;
+  --color-paper:   #F2F1ED;
+  --color-paper-2: #E8E7E2;
+  --color-ink:     #11110F;
+  --color-ink-2:   #6D6C67;
+  --color-rule:    #C9C8C2;
+  --color-accent:  #FF4D00;
 
-  --color-noir:       #0C0C0A;
-  --color-noir-2:     #171714;
-  --color-noir-ink:   #F5F4F0;
-  --color-noir-ink-2: #A5A39B;
-  --color-noir-ink-3: #7C7A73;
-  --color-noir-rule:  #2A2A26;
+  --font-sans: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --font-sans:    'Inter Tight', system-ui, -apple-system, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  /* Page gutter: one value, read by every full-width band. */
+  --spacing-gutter: 1.25rem;
 }
+
+@media (min-width: 48rem)  { :root { --spacing-gutter: 2.5rem; } }
+@media (min-width: 80rem)  { :root { --spacing-gutter: 4rem; } }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 4.5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background-color: #F8F7F4;
-  color: #4A4945;
-  font-family: 'Inter Tight', system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.65;
+  background-color: #F2F1ED;
+  color: #11110F;
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
-::selection { background: #12120F; color: #F8F7F4; }
+::selection { background: #FF4D00; color: #F2F1ED; }
 
-/* Caps the measure at roughly 68 characters. */
+/* Caps the measure at roughly 62 characters. */
 .measure { max-width: 34em; }
 
-/* Display type is optically large; tighten tracking and pull the leading in.
-   Deliberately sets NO colour: these classes are declared after Tailwind's
-   utilities, so a hardcoded colour here would beat text-noir-ink and render
-   near-black headings on the dark sections. Colour is always a utility. */
+/* Display type: heavy, uppercase, tightly tracked, leading pulled in.
+   No colour here — colour is always a utility, so it composes. */
 .display {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 1.02;
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
 }
 
-/* Metadata: mono, small, never shouty. Deliberately not an eyebrow label.
-   Colour comes from a utility, for the same cascade reason as .display. */
+/* Metadata: mono, small, uppercase, slightly spaced. */
 .meta {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  line-height: 1.7;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Text link: 1px underline that thickens on hover, no colour change. */
+.link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-thickness 150ms ease, text-decoration-color 150ms ease;
+}
+.link:hover { text-decoration-thickness: 2px; }
+
+/* Arrow that nudges on the parent's hover. Parent needs `group`. */
+.arrow {
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+.group:hover .arrow,
+.group:focus-visible .arrow { transform: translate(0.2em, -0.2em); }
+
+/* Hero page-load: each line rises out of a clipped box. */
+.rise { display: block; overflow: hidden; padding-bottom: 0.04em; }
+.rise > * {
+  display: block;
+  animation: rise 900ms cubic-bezier(0.22, 0.61, 0.24, 1) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+@keyframes rise {
+  from { transform: translateY(110%); }
+  to   { transform: none; }
 }
 
 /*
   Reveal contract. The hidden state is applied ONLY when JavaScript sets
-  data-reveal="out" — CSS never hides content on its own. See spec 3.5.
+  data-reveal="out" — CSS never hides content on its own.
 */
 [data-reveal] {
   transition:
     opacity 0.7s cubic-bezier(0.22, 0.61, 0.24, 1),
     transform 0.7s cubic-bezier(0.22, 0.61, 0.24, 1);
 }
-[data-reveal="out"] { opacity: 0; transform: translateY(20px); }
+[data-reveal="out"] { opacity: 0; transform: translateY(16px); }
 [data-reveal="in"]  { opacity: 1; transform: none; }
 
 input, textarea, select, button { font: inherit; }
 
 :focus-visible {
-  outline: 2px solid #12120F;
-  outline-offset: 2px;
-  border-radius: 1px;
+  outline: 2px solid #FF4D00;
+  outline-offset: 3px;
 }
-.on-noir :focus-visible { outline-color: #F8F7F4; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .rise > * { animation: none; }
   [data-reveal],
   [data-reveal="out"],
   [data-reveal="in"] {

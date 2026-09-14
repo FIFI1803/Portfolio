@@ -4,21 +4,17 @@ import { supabase } from './supabase'
 /**
  * Local-first content.
  *
- * The compiled-in `fallback` renders immediately and is only ever replaced by
- * a non-empty remote result. A paused, slow or erroring Supabase is therefore
- * invisible to the visitor — see spec section 5 (finding F2, where a paused
- * project left Skills, Experience and Projects as empty labelled voids).
+ * `fallback` renders on the first paint and is replaced only by a non-empty
+ * remote result, so a paused, slow or erroring Supabase is invisible to the
+ * visitor. `build` shapes the query; default is ordered by sort_order.
  */
-export const useContent = (table, fallback) => {
+export const useContent = (table, fallback, build = (q) => q.order('sort_order')) => {
   const [items, setItems] = useState(fallback)
 
   useEffect(() => {
     let cancelled = false
 
-    supabase
-      .from(table)
-      .select('*')
-      .order('sort_order')
+    build(supabase.from(table).select('*'))
       .then(({ data, error }) => {
         if (cancelled || error) return
         if (Array.isArray(data) && data.length > 0) setItems(data)
@@ -28,7 +24,13 @@ export const useContent = (table, fallback) => {
       })
 
     return () => { cancelled = true }
-  }, [table])
+  }, [table]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return items
+}
+
+/** The single `site` settings row, merged over the local profile. */
+export const useSite = (fallback) => {
+  const rows = useContent('site', [fallback], (q) => q.limit(1))
+  return { ...fallback, ...rows[0] }
 }

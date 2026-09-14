@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import { profile } from './content'
+import { useSite } from './lib/useContent'
+import { site as localSite } from './content'
 
 const links = [
   { label: 'Work', href: '#work' },
-  { label: 'Experience', href: '#experience' },
   { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Now', href: '#now' },
+  { label: 'Notes', href: '#notes' },
 ]
 
 const Navigation = () => {
   const [open, setOpen] = useState(false)
   const toggleRef = useRef(null)
+  const site = useSite(localSite)
 
   useEffect(() => {
     if (!open) return
@@ -24,27 +26,28 @@ const Navigation = () => {
   }, [open])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur-md">
-      <nav className="mx-auto flex h-20 max-w-[1240px] items-center justify-between px-6 md:px-10 lg:px-14">
-        <a href="#top" className="font-display text-[22px] text-ink">Filip Galach</a>
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper px-gutter">
+      <nav aria-label="Primary" className="mx-auto flex h-14 max-w-[1600px] items-center justify-between">
+        <a href="#top" className="display text-[17px] tracking-[-0.02em] text-ink">
+          FG<span className="text-accent">.</span>
+        </a>
 
-        <div className="hidden items-center gap-9 md:flex">
+        <ul className="meta hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href}
-               className="text-[15px] text-ink-2 transition-colors hover:text-ink">
-              {l.label}
-            </a>
+            <li key={l.href}>
+              <a href={l.href} className="link decoration-transparent text-ink hover:decoration-ink">
+                {l.label}
+              </a>
+            </li>
           ))}
-          <a href={profile.cv} download
-             className="border border-ink px-4 py-2 text-[14px] text-ink transition-colors hover:bg-ink hover:text-paper">
-            CV
-          </a>
-        </div>
+        </ul>
+
+        <p className="meta hidden text-ink-2 md:block">{site.location_short}</p>
 
         <button
           ref={toggleRef}
           type="button"
-          className="text-[15px] text-ink md:hidden"
+          className="meta -mr-2 px-2 py-3 text-ink md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen(v => !v)}
@@ -53,14 +56,18 @@ const Navigation = () => {
         </button>
       </nav>
 
-      <div id="mobile-menu" hidden={!open} className="border-t border-rule bg-paper md:hidden">
-        {links.map((l) => (
-          <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-             className="block border-b border-rule px-6 py-4 text-ink-2">
-            {l.label}
-          </a>
-        ))}
-        <a href={profile.cv} download className="block px-6 py-4 text-ink">Download CV</a>
+      <div id="mobile-menu" hidden={!open} className="-mx-gutter border-t border-rule bg-paper md:hidden">
+        <ul>
+          {links.map((l) => (
+            <li key={l.href} className="border-b border-rule">
+              <a href={l.href} onClick={() => setOpen(false)}
+                 className="display block px-gutter py-5 text-[2.25rem] text-ink">
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="meta px-gutter py-5 text-ink-2">{site.location_short}</p>
       </div>
     </header>
   )

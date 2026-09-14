@@ -1,57 +1,54 @@
-import Reveal from '../components/Reveal'
-import { profile } from '../content'
+import { useSite } from '../lib/useContent'
+import { site as localSite } from '../content'
 
-const Hero = () => (
-  <div id="top" className="w-full bg-paper">
-    <div className="mx-auto max-w-[1240px] px-6 pb-28 pt-20 md:px-10 md:pb-36 md:pt-28 lg:px-14 lg:pb-44 lg:pt-32">
-      <Reveal>
-        <p className="meta text-ink-3">Available for select opportunities</p>
-        <p className="meta text-ink-3">Software Developer / Dublin</p>
-      </Reveal>
+const Hero = () => {
+  const site = useSite(localSite)
+  const facts = [
+    ['Role', site.role],
+    ['Company', site.company],
+    ['Focus', site.focus],
+    ['Based', site.location],
+  ]
 
-      <Reveal delay={80}>
-        {/* Owns the fold now that the portrait is gone, so it runs full width. */}
-        <h1 className="display mt-8 text-[clamp(3.25rem,13vw,11rem)] text-ink">
-          Filip Galach
-        </h1>
-      </Reveal>
-
-      <Reveal delay={160}>
-        <div className="mt-14 grid gap-10 border-t border-rule pt-10 lg:grid-cols-[1fr_auto] lg:gap-20">
-          <div>
-            <p className="measure text-[19px] leading-[1.6] text-ink-2">
-              Building thoughtful enterprise products and modern web experiences
-              with clarity, reliability, and purpose.
+  return (
+  <div id="top" className="w-full px-gutter">
+    <div className="mx-auto flex md:min-h-[calc(100svh-3.5rem)] max-w-[1600px] flex-col justify-between pb-10 pt-16 md:pb-14 md:pt-24 lg:pt-28">
+      <div className="grid grid-cols-12 gap-x-5">
+        <div className="meta col-span-12 flex flex-col justify-between text-ink-2 md:col-span-2">
+          <p>Software Developer<br />Builder<br />Creative</p>
+          {site.availability && (
+            <p className="mt-6 hidden md:block">
+              <span className="mr-2 inline-block h-2 w-2 bg-accent align-middle" aria-hidden="true" />
+              {site.availability}
             </p>
-
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a href="#work"
-                 className="bg-ink px-6 py-3 text-[15px] text-paper transition-opacity hover:opacity-85">
-                View work
-              </a>
-              <a href={profile.cv} download
-                 className="border border-rule px-6 py-3 text-[15px] text-ink transition-colors hover:border-ink">
-                Download CV
-              </a>
-            </div>
-          </div>
-
-          <dl className="grid grid-cols-2 gap-x-10 gap-y-4 lg:grid-cols-1 lg:gap-y-5">
-            {[
-              ['Currently', `${profile.employer} ${profile.team}`],
-              ['Based', profile.location],
-              ['Since', profile.since],
-            ].map(([label, value]) => (
-              <div key={label}>
-                <dt className="meta text-ink-3">{label}</dt>
-                <dd className="mt-1 text-[15px] text-ink">{value}</dd>
-              </div>
-            ))}
-          </dl>
+          )}
         </div>
-      </Reveal>
+
+        <h1 className="display col-span-12 mt-10 text-[18vw] md:text-[clamp(4.5rem,16vw,15rem)] text-ink md:col-span-10 md:mt-0">
+          <span className="rise"><span>Filip</span></span>
+          <span className="rise" style={{ '--rise-delay': '90ms' }}>
+            <span>Galach<span className="text-accent">.</span></span>
+          </span>
+        </h1>
+      </div>
+
+      <div className="mt-20 grid grid-cols-12 gap-x-5 gap-y-10 border-t border-rule pt-8 md:mt-28 lg:mt-36">
+        <p className="col-span-12 max-w-[26em] text-[clamp(1.125rem,1.6vw,1.375rem)] leading-[1.35] tracking-[-0.01em] text-ink md:col-span-6 lg:col-span-5">
+          {site.tagline}
+        </p>
+
+        <dl className="col-span-12 grid grid-cols-2 gap-x-5 gap-y-6 md:col-span-6 md:col-start-7 lg:col-span-6 lg:col-start-7 lg:grid-cols-4">
+          {facts.map(([label, value]) => (
+            <div key={label} className="border-t border-rule pt-3">
+              <dt className="meta text-ink-2">{label}</dt>
+              <dd className="mt-1 text-[15px] leading-snug text-ink">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   </div>
-)
+  )
+}
 
 export default Hero

@@ -1,15 +1,16 @@
 import { useState } from 'react'
-import Section from '../components/Section'
 import Reveal from '../components/Reveal'
 import { supabase } from '../lib/supabase'
-import { profile } from '../content'
+import { useSite } from '../lib/useContent'
+import { site as localSite } from '../content'
 
 const FIELD =
-  'w-full border border-noir-rule bg-noir-2 px-4 py-3 text-[16px] text-noir-ink placeholder:text-noir-ink-3'
+  'w-full border-0 border-b border-rule bg-transparent px-0 py-3 text-[16px] text-ink placeholder:text-ink-2 focus:border-ink focus-visible:outline-none'
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle')
+  const site = useSite(localSite)
 
   const set = (k) => (e) => setForm(p => ({ ...p, [k]: e.target.value }))
 
@@ -33,69 +34,77 @@ const Contact = () => {
     }
   }
 
-  const details = [
-    ['Email', `mailto:${profile.email}`, profile.email],
-    ['LinkedIn', profile.linkedin, 'in/filip-galach'],
-    ['GitHub', profile.github, 'FIFI1803'],
-    ['CV', profile.cv, 'Download PDF'],
-  ]
-
   return (
-    <Section id="contact" ground="dark">
-      <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+    <section id="contact" className="w-full border-t border-rule px-gutter">
+      <div className="mx-auto max-w-[1600px] py-20 md:py-28 lg:py-36">
         <Reveal>
-          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)] text-noir-ink">
-            Got a project in mind?
+          <h2 className="display text-[clamp(3rem,9vw,8.5rem)] text-ink">
+            Have something<br />worth building?
           </h2>
-          <p className="measure mt-6 text-[17px] text-noir-ink-2">
-            Whether you have a project in mind, a job opportunity, or just want
-            to say hi — my inbox is always open.
-          </p>
-
-          <ul className="mt-10 space-y-3">
-            {details.map(([label, href, text]) => (
-              <li key={label} className="grid grid-cols-[110px_1fr] gap-4">
-                <span className="meta text-noir-ink-3">{label}</span>
-                <a href={href}
-                   className="border-b border-noir-rule pb-0.5 text-[16px] text-noir-ink transition-colors hover:border-noir-ink">
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
         </Reveal>
 
-        <Reveal delay={100}>
-          <form onSubmit={submit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="meta text-noir-ink-3">Name</label>
-              <input id="name" required value={form.name} onChange={set('name')}
-                     className={`${FIELD} mt-2`} />
-            </div>
-            <div>
-              <label htmlFor="email" className="meta text-noir-ink-3">Email</label>
-              <input id="email" type="email" required value={form.email} onChange={set('email')}
-                     className={`${FIELD} mt-2`} />
-            </div>
-            <div>
-              <label htmlFor="message" className="meta text-noir-ink-3">Message</label>
-              <textarea id="message" required rows={6} value={form.message} onChange={set('message')}
-                        className={`${FIELD} mt-2 resize-y`} />
-            </div>
-
-            <button type="submit" disabled={status === 'sending'}
-                    className="bg-noir-ink px-6 py-3 text-[15px] text-noir transition-opacity hover:opacity-85 disabled:opacity-50">
-              {status === 'sending' ? 'Sending…' : 'Send message'}
-            </button>
-
-            <p aria-live="polite" className="meta">
-              {status === 'sent' && 'Thanks — I’ll come back to you.'}
-              {status === 'error' && `Something went wrong. Email me directly at ${profile.email}.`}
-            </p>
-          </form>
+        <Reveal delay={80}>
+          <a href={`mailto:${site.email}`}
+             className="group mt-12 inline-flex max-w-full items-baseline gap-3 text-[clamp(1.25rem,3.4vw,3.25rem)] font-medium tracking-[-0.03em] text-ink md:mt-16">
+            <span className="link break-all decoration-rule underline-offset-[0.15em] group-hover:decoration-ink">{site.email}</span>
+            <span className="arrow text-[0.6em] text-accent" aria-hidden="true">↗</span>
+          </a>
         </Reveal>
+
+        <div className="mt-20 grid grid-cols-12 gap-x-5 gap-y-14 border-t border-rule pt-10 md:mt-28">
+          <Reveal className="col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-3">
+            <ul className="space-y-4">
+              {[
+                ['GitHub', site.github, String(site.github || '').replace(/^https?:\/\//, '')],
+                ['LinkedIn', site.linkedin, String(site.linkedin || '').replace(/^https?:\/\//, '')],
+                ['CV', site.cv_url, 'Download PDF'],
+              ].map(([label, href, text]) => (
+                <li key={label}>
+                  <p className="meta text-ink-2">{label}</p>
+                  <a href={href} {...(label === 'CV' ? { download: true } : { target: '_blank', rel: 'noreferrer' })}
+                     className="link mt-1 inline-block text-[15px] text-ink decoration-rule hover:decoration-ink">
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={80} className="col-span-12 md:col-span-7 md:col-start-6 lg:col-span-5 lg:col-start-7">
+            <p className="meta text-ink-2">Or leave a message here</p>
+            <form onSubmit={submit} className="mt-4 space-y-4">
+              <div>
+                <label htmlFor="name" className="sr-only">Name</label>
+                <input id="name" required autoComplete="name" placeholder="Name"
+                       value={form.name} onChange={set('name')} className={FIELD} />
+              </div>
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input id="email" type="email" required autoComplete="email" placeholder="Email"
+                       value={form.email} onChange={set('email')} className={FIELD} />
+              </div>
+              <div>
+                <label htmlFor="message" className="sr-only">Message</label>
+                <textarea id="message" required rows={4} placeholder="What are you building?"
+                          value={form.message} onChange={set('message')} className={`${FIELD} resize-y`} />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-6 pt-2">
+                <button type="submit" disabled={status === 'sending'}
+                        className="group inline-flex items-center gap-2 bg-ink px-5 py-3 text-[14px] font-medium text-paper transition-colors hover:bg-accent disabled:opacity-50 disabled:hover:bg-ink">
+                  {status === 'sending' ? 'Sending…' : 'Send message'}
+                  <span className="arrow" aria-hidden="true">→</span>
+                </button>
+                <p aria-live="polite" className="meta text-ink-2">
+                  {status === 'sent' && 'Sent. I’ll come back to you.'}
+                  {status === 'error' && `Something went wrong — email me directly at ${site.email}.`}
+                </p>
+              </div>
+            </form>
+          </Reveal>
+        </div>
       </div>
-    </Section>
+    </section>
   )
 }
 
