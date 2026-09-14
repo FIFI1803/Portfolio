@@ -56,9 +56,12 @@ test('has no horizontal overflow at any breakpoint', async ({ page }) => {
   }
 })
 
-test('keeps total image weight under 500 kB', async ({ page }) => {
+test('keeps the site’s own image weight under 500 kB', async ({ page }) => {
+  // Only same-origin assets: remote screenshots and badges are content edited
+  // in the admin, not something this repo can shrink.
   let bytes = 0
   page.on('response', async res => {
+    if (!res.url().startsWith('http://localhost:4173/')) return
     if (!/image/.test(res.headers()['content-type'] || '')) return
     const body = await res.body().catch(() => null)
     if (body) bytes += body.length
